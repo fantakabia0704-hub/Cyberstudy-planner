@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CyberStudy Planner</title>
+  <title>CyberStudy Planner · Fanta Kabia</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
@@ -428,6 +428,53 @@
       margin-bottom: 4px;
     }
 
+    /* Portfolio sections */
+    .portfolio-section {
+      margin-top: 32px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      background: var(--accent-soft);
+      color: var(--muted-text);
+    }
+
+    .link-row {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .link-row a {
+      font-size: 0.8rem;
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    .link-row a:hover {
+      text-decoration: underline;
+    }
+
+    .project-list {
+      margin-top: 8px;
+      padding-left: 18px;
+      font-size: 0.85rem;
+    }
+
+    .project-list li {
+      margin-bottom: 4px;
+    }
+
     footer {
       text-align: center;
       margin: 20px 0 5px;
@@ -452,7 +499,7 @@
         <div>
           <h1>CyberStudy Planner</h1>
           <p class="subtitle">
-            Calm neutral dashboard for your Security+, A+, coding, and mental check-ins.
+            Calm neutral dashboard for Security+, IT, and study check-ins.
           </p>
         </div>
         <div class="tag-row">
@@ -651,6 +698,62 @@
         </div>
       </div>
     </div>
+
+    <!-- Portfolio-style section -->
+    <section class="portfolio-section" id="fanta-portfolio">
+      <div class="card">
+        <h2><span class="emoji">👩🏽‍💻</span> About Fanta</h2>
+        <p class="section-subtitle">
+          Aspiring cybersecurity / IT professional and Towson student, building tools that
+          make studying and tech careers feel more organized, soft, and possible.
+        </p>
+        <p style="font-size:0.85rem;">
+          I created CyberStudy Planner to support my own journey toward Security+ and other IT
+          certifications. I care about clean design, calm productivity, and making tech spaces
+          feel welcoming for women of color and first-gen students.
+        </p>
+
+        <div class="chip-row">
+          <span class="chip">Security+ prep</span>
+          <span class="chip">IT & help desk</span>
+          <span class="chip">HTML · CSS · JavaScript</span>
+          <span class="chip">Productivity & planning</span>
+          <span class="chip">Women in Cybersecurity</span>
+        </div>
+
+        <div class="link-row">
+          <a href="mailto:your-email@example.com">📧 Email me</a>
+          <a href="https://github.com/fantakabia0704-hub" target="_blank">💻 GitHub</a>
+          <a href="https://www.linkedin.com" target="_blank">🔗 LinkedIn (coming soon)</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">📁</span> Projects</h2>
+        <p class="section-subtitle">
+          A growing collection of projects focused on cybersecurity, study tools, and clean UI.
+        </p>
+        <ul class="project-list">
+          <li>
+            <strong>CyberStudy Planner</strong> —
+            study dashboard with Security+ progress tracking, drag-and-drop tasks, energy tags,
+            focus timer, dark/light nude theme, journal, and calendar view.
+            <br />
+            <a href="https://fantakabia0704-hub.github.io/Cyberstudy-planner/" target="_blank">
+              🔗 Live app
+            </a>
+            ·
+            <a href="https://github.com/fantakabia0704-hub/Cyberstudy-planner" target="_blank">
+              💻 GitHub repo
+            </a>
+          </li>
+          <li>
+            <em>More projects coming soon…</em> (ex: simple Python scripts, IT ticket tracker,
+            or mini security labs you build later).
+          </li>
+        </ul>
+      </div>
+    </section>
 
     <footer>
       Built by <strong>Fanta Kabia</strong> • CyberStudy Planner • 2025
