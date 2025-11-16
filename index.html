@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CyberStudy Planner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Nude / neutral cyber girl vibe – light theme defaults */
+      --bg-color: radial-gradient(circle at top, #f4ede4 0, #f1e6d8 40%, #e2d3c5 75%, #cbb6a1 100%);
+      --card-bg: rgba(255, 252, 247, 0.98);
+      --text-color: #292524;
+      --muted-text: #6b5c52;
+      --accent: #c08a6a;
+      --accent-soft: #f3e5da;
+      --border-soft: rgba(148, 116, 96, 0.4);
+      --pill-bg: rgba(255, 255, 255, 0.7);
+    }
+
+    body.dark-theme {
+      --bg-color: radial-gradient(circle at top, #1b1411 0, #120f0d 40%, #090605 100%);
+      --card-bg: rgba(24, 18, 15, 0.96);
+      --text-color: #fdf5ed;
+      --muted-text: #d1b8a6;
+      --accent: #e2a37f;
+      --accent-soft: #291f19;
+      --border-soft: rgba(226, 163, 127, 0.6);
+      --pill-bg: rgba(26, 20, 17, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.9rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted-text);
+      margin-top: 4px;
+    }
+
+    .header-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 3px 10px;
+      background: var(--pill-bg);
+      border: 1px solid rgba(180, 152, 130, 0.4);
+      color: var(--muted-text);
+      font-size: 0.75rem;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .header-btn {
+      background: transparent;
+      border: 1px solid rgba(148, 116, 96, 0.8);
+      color: var(--text-color);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .header-btn.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.9fr) minmax(0, 1.2fr);
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 880px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .top-actions {
+        align-items: flex-start;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-top: 15px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border-soft);
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2 span.emoji {
+      font-size: 1.1rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.78rem;
+      color: var(--muted-text);
+      margin: 2px 0 10px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    input, select, button, textarea {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    input, select, textarea {
+      background: #f6ece1;
+      color: #292524;
+    }
+
+    body.dark-theme input,
+    body.dark-theme select,
+    body.dark-theme textarea {
+      background: #1a1411;
+      color: #fdf5ed;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 15px;
+      border-radius: 999px;
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+
+    .btn-small {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      margin-top: 0;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filters select {
+      flex: 1;
+    }
+
+    .tasks {
+      margin-top: 10px;
+    }
+
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--accent-soft);
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      gap: 10px;
+      cursor: grab;
+    }
+
+    .task.dragging {
+      opacity: 0.5;
+      border: 1px dashed var(--accent);
+    }
+
+    .task-info {
+      max-width: 75%;
+    }
+
+    .task strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      margin-right: 6px;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .badge.security { background: #d97757; }
+    .badge.aplus { background: #5c9f6b; }
+    .badge.py { background: #d3a550; color: #211; }
+    .badge.other { background: #b68bb3; }
+
+    .meta-text {
+      font-size: 0.75rem;
+      color: var(--muted-text);
+    }
+
+    .task button {
+      width: auto;
+      padding: 5px 9px;
+      font-size: 0.75rem;
+      margin-top: 0;
+    }
+
+    .task .complete-btn {
+      background: #5c9f6b;
+    }
+
+    .task .delete-btn {
+      background: #b68bb3;
+      margin-top: 5px;
+    }
+
+    .task.completed {
+      opacity: 0.6;
+      text-decoration: line-through;
+    }
+
+    #taskStats,
+    #snapshot,
+    #overviewLine {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: var(--muted-text);
+    }
+
+    /* Quick stats row */
+    .stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .stat-chip {
+      flex: 1;
+      min-width: 110px;
+      border-radius: 12px;
+      padding: 6px 10px;
+      background: var(--accent-soft);
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-label {
+      color: var(--muted-text);
+    }
+
+    .stat-value {
+      font-weight: 600;
+    }
+
+    /* Security+ */
+    .progress-bar-outer {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #e2a37f, #f4d3a1);
+      transition: width 0.25s ease;
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+      font-size: 0.85rem;
+    }
+
+    .progress-row input[type="range"] {
+      flex: 1;
+    }
+
+    /* Motivation section */
+    #quoteText {
+      font-size: 0.85rem;
+      color: var(--muted-text);
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    .prompt-list {
+      margin-top: 10px;
+      padding-left: 16px;
+      font-size: 0.78rem;
+      color: var(--muted-text);
+    }
+
+    .prompt-list li {
+      margin-bottom: 4px;
+    }
+
+    /* Timer */
+    .timer-display {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .timer-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .timer-buttons button {
+      flex: 1;
+    }
+
+    .card-divider {
+      border: none;
+      border-top: 1px solid rgba(180, 152, 130, 0.4);
+      margin: 14px 0 10px;
+    }
+
+    #journal {
+      min-height: 120px;
+    }
+
+    /* Calendar / planner */
+    .calendar-summary {
+      font-size: 0.8rem;
+      color: var(--muted-text);
+      margin-top: 6px;
+    }
+
+    .calendar-tasks {
+      margin-top: 8px;
+      font-size: 0.85rem;
+    }
+
+    .calendar-task-item {
+      margin-bottom: 4px;
+    }
+
+    footer {
+      text-align: center;
+      margin: 20px 0 5px;
+      font-size: 0.8rem;
+      color: var(--muted-text);
+    }
+
+    @media (max-width: 720px) {
+      header {
+        flex-direction: column;
+      }
+      .task-info {
+        max-width: 65%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-row">
+        <div>
+          <h1>CyberStudy Planner</h1>
+          <p class="subtitle">
+            Calm neutral dashboard for your Security+, A+, coding, and mental check-ins.
+          </p>
+        </div>
+        <div class="tag-row">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            Student project · Built by Fanta Kabia
+          </div>
+          <div class="pill">🛡️ Security+ · 💻 IT · ☁️ Cloud</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="themeToggle" class="header-btn">☾ Dark mode</button>
+        <button id="todayToggle" class="header-btn">📅 Today only: Off</button>
+      </div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <div class="layout">
+      <!-- LEFT COLUMN: Progress + Tasks -->
+      <div>
+        <!-- Security+ Progress -->
+        <div class="card">
+          <h2><span class="emoji">🛡️</span> Security+ Progress</h2>
+          <p class="section-subtitle">
+            Track how ready you feel. Use this like a confidence meter, not a grade.
+          </p>
+          <div class="progress-row">
+            <span id="secPlusLabel" class="meta-text">0% complete</span>
+            <span class="meta-text">Goal: 100%</span>
+          </div>
+          <div class="progress-bar-outer">
+            <div id="secPlusBar" class="progress-bar-inner"></div>
+          </div>
+          <div class="progress-row">
+            <span class="meta-text">Adjust progress:</span>
+            <input id="secPlusRange" type="range" min="0" max="100" value="0" />
+          </div>
+        </div>
+
+        <!-- Tasks: add + list -->
+        <div class="card">
+          <h2><span class="emoji">📋</span> Tasks & Study Plan</h2>
+          <p class="section-subtitle">
+            Add anything you want to get done: labs, videos, chapters, practice questions.
+          </p>
+
+          <!-- Quick stats -->
+          <div class="stats-row">
+            <div class="stat-chip">
+              <span class="stat-label">Total tasks</span>
+              <span class="stat-value" id="statTotal">0</span>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-label">Completed</span>
+              <span class="stat-value" id="statCompleted">0</span>
+            </div>
+            <div class="stat-chip">
+              <span class="stat-label">Security+ focus</span>
+              <span class="stat-value" id="statSecurityPending">0</span>
+            </div>
+          </div>
+
+          <p id="overviewLine"></p>
+
+          <!-- Add Task Inline -->
+          <label>
+            Task Title
+            <input id="title" type="text" placeholder="Ex: Review Security+ Domain 1" />
+          </label>
+
+          <label>
+            Category
+            <select id="category">
+              <option value="Security+">Security+</option>
+              <option value="A+">A+</option>
+              <option value="Python">Python</option>
+              <option value="Networking">Networking</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          <label>
+            Energy level
+            <select id="energy">
+              <option value="Low">Low</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="High">High</option>
+            </select>
+          </label>
+
+          <label>
+            Due Date
+            <input id="dueDate" type="date" />
+          </label>
+
+          <label>
+            Notes (optional)
+            <textarea id="notes" rows="2" placeholder="Key topics, chapters, links, or question types to review"></textarea>
+          </label>
+
+          <button id="addTaskBtn">Add Task</button>
+          <p class="meta-text" style="margin-top:6px;">
+            Tip: Press <strong>Enter</strong> in the title box to add a task faster.
+          </p>
+
+          <div class="filters">
+            <select id="filterCategory">
+              <option value="All">All Categories</option>
+              <option value="Security+">Security+</option>
+              <option value="A+">A+</option>
+              <option value="Python">Python</option>
+              <option value="Networking">Networking</option>
+              <option value="Other">Other</option>
+            </select>
+            <select id="filterStatus">
+              <option value="All">All Statuses</option>
+              <option value="Pending">Pending</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <select id="filterEnergy">
+              <option value="All">All Energy</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+
+          <p id="taskStats">0 of 0 tasks completed</p>
+          <p id="snapshot"></p>
+
+          <button id="copySummaryBtn" class="btn-small" style="margin-top:4px;">
+            📋 Copy today summary
+          </button>
+
+          <div id="tasks" class="tasks"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Motivation + Journal + Calendar -->
+      <div>
+        <!-- Motivation + Timer -->
+        <div class="card">
+          <h2><span class="emoji">✨</span> Mindset & Motivation</h2>
+          <p class="section-subtitle">
+            Focus timer + reminders so you don’t psych yourself out while leveling up.
+          </p>
+
+          <!-- Timer block -->
+          <p class="section-subtitle">Focus session timer (25 minutes)</p>
+          <div id="timerDisplay" class="timer-display">25:00</div>
+          <div class="timer-buttons">
+            <button id="timerStart" class="btn-small">Start</button>
+            <button id="timerPause" class="btn-small">Pause</button>
+            <button id="timerReset" class="btn-small">Reset</button>
+          </div>
+
+          <hr class="card-divider" />
+
+          <!-- Quotes -->
+          <p class="section-subtitle">Daily reminder</p>
+          <p id="quoteText">Loading motivation…</p>
+          <button id="newQuoteBtn" class="btn-small" style="margin-top:8px;width:auto;">
+            New quote
+          </button>
+
+          <ul class="prompt-list">
+            <li>What’s one tiny thing I can finish in the next 25 minutes?</li>
+            <li>What topic makes me the most nervous for the exam? Put it on the plan.</li>
+            <li>What did I already do this week that I can give myself credit for?</li>
+          </ul>
+        </div>
+
+        <!-- Journal -->
+        <div class="card">
+          <h2><span class="emoji">📝</span> Notes & Journal</h2>
+          <p class="section-subtitle">
+            Use this for thoughts, wins, frustrations, or anything you don’t want to forget.
+          </p>
+          <textarea id="journal" placeholder="Write anything you want to remember or release here..."></textarea>
+          <button id="saveJournalBtn">Save Journal</button>
+          <p class="meta-text" id="journalStatus">Not saved yet.</p>
+        </div>
+
+        <!-- Calendar -->
+        <div class="card">
+          <h2><span class="emoji">📆</span> Calendar & Planner</h2>
+          <p class="section-subtitle">
+            Pick a date to see what’s due. Good for mapping out exam week and finals.
+          </p>
+          <label>
+            Date
+            <input id="calendarDate" type="date" />
+          </label>
+          <p class="calendar-summary" id="calendarSummary">No date selected yet.</p>
+          <div id="calendarTasks" class="calendar-tasks"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Built by <strong>Fanta Kabia</strong> • CyberStudy Planner • 2025
+    </footer>
+  </div>
+
+  <script>
+    // --- ELEMENTS ---
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const secPlusRange = document.getElementById('secPlusRange');
+    const secPlusBar = document.getElementById('secPlusBar');
+    const secPlusLabel = document.getElementById('secPlusLabel');
+    const quoteText = document.getElementById('quoteText');
+    const newQuoteBtn = document.getElementById('newQuoteBtn');
+
+    const titleInput = document.getElementById('title');
+    const categoryInput = document.getElementById('category');
+    const energyInput = document.getElementById('energy');
+    const dueDateInput = document.getElementById('dueDate');
+    const notesInput = document.getElementById('notes');
+    const addTaskBtn = document.getElementById('addTaskBtn');
+    const tasksContainer = document.getElementById('tasks');
+    const filterCategory = document.getElementById('filterCategory');
+    const filterStatus = document.getElementById('filterStatus');
+    const filterEnergy = document.getElementById('filterEnergy');
+    const taskStats = document.getElementById('taskStats');
+    const snapshot = document.getElementById('snapshot');
+    const overviewLine = document.getElementById('overviewLine');
+
+    const statTotal = document.getElementById('statTotal');
+    const statCompleted = document.getElementById('statCompleted');
+    const statSecurityPending = document.getElementById('statSecurityPending');
+
+    const journalTextarea = document.getElementById('journal');
+    const saveJournalBtn = document.getElementById('saveJournalBtn');
+    const journalStatus = document.getElementById('journalStatus');
+
+    const todayToggleBtn = document.getElementById('todayToggle');
+    const calendarDateInput = document.getElementById('calendarDate');
+    const calendarSummary = document.getElementById('calendarSummary');
+    const calendarTasks = document.getElementById('calendarTasks');
+
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerStartBtn = document.getElementById('timerStart');
+    const timerPauseBtn = document.getElementById('timerPause');
+    const timerResetBtn = document.getElementById('timerReset');
+
+    const copySummaryBtn = document.getElementById('copySummaryBtn');
+
+    let tasks = [];
+    let filterTodayOnly = false;
+    let draggedId = null;
+
+    // Timer state
+    let timerSeconds = 25 * 60;
+    let timerInterval = null;
+
+    // --- THEME ---
+    function loadTheme() {
+      const saved = localStorage.getItem('cyberStudyTheme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-theme');
+        themeToggleBtn.textContent = '☀ Light mode';
+      } else {
+        document.body.classList.remove('dark-theme');
+        themeToggleBtn.textContent = '☾ Dark mode';
+      }
+    }
+
+    function toggleTheme() {
+      if (document.body.classList.contains('dark-theme')) {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('cyberStudyTheme', 'light');
+        themeToggleBtn.textContent = '☾ Dark mode';
+      } else {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('cyberStudyTheme', 'dark');
+        themeToggleBtn.textContent = '☀ Light mode';
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    // --- QUOTES ---
+    const quotes = [
+      "You don’t have to study all day — just today.",
+      "Future you is already proud of this version of you showing up.",
+      "One hour of focused study can change your whole week.",
+      "You belong in tech rooms, security briefings, and board meetings.",
+      "Slow progress is still progress.",
+      "Security+ is just a checklist. YOU are the real upgrade.",
+      "A consistent girl always wins.",
+      "Your study vibe is becoming your lifestyle.",
+      "Every lab you do today builds confidence for your future interviews.",
+      "You’ve done hard things before — this is nothing new.",
+      "Your dream career is waiting on the other side of discipline.",
+      "Small daily improvement beats random bursts of effort.",
+      "You’re on your own timeline — stop rushing greatness.",
+      "Read it once confused, twice curious, three times confident.",
+      "Confusion is part of becoming smarter.",
+      "Every question you get wrong is an opportunity, not a failure.",
+      "You’re building skills that no one can take from you.",
+      "Your future paycheck is proud of you right now.",
+      "You’re allowed to be soft AND successful.",
+      "One focused hour puts you ahead of the old you.",
+      "Being nervous means you care. That’s a good sign.",
+      "You don’t need perfect motivation — just a clean 10 minutes of focus.",
+      "Your mind is leveling up quietly.",
+      "Act like the woman you’re becoming, not the girl you used to be.",
+      "Your effort today is an investment in your rich future.",
+      "Your brain is literally rewiring itself as you study. Magic.",
+      "You belong in tech even if you don’t ‘fit the stereotype.’",
+      "Take breaks. Hydrate. Stretch. Still counts.",
+      "You’re learning a new language: tech. That’s huge.",
+      "Being a beginner is a flex when you’re brave enough to try.",
+      "Show up, even if it’s messy. Especially then.",
+      "Security+ is not smarter than you.",
+      "You are upgrading your future lifestyle every time you study.",
+      "A girl who studies becomes a woman who succeeds.",
+      "You’re becoming the type of woman your younger self needed.",
+      "Keep going — tired, not defeated.",
+      "Every study session is a letter of love to your future self.",
+      "You’re not behind. You’re building.",
+      "You don’t have to believe in yourself fully. 1% is enough to start.",
+      "You’ve survived every ‘I can’t do this’ moment so far.",
+      "A soft life requires hard work first — and you’re doing it.",
+      "You’re rewriting your story every time you choose discipline.",
+      "Take it slow. Slow still gets you there.",
+      "You’re allowed to restart as many times as you need.",
+      "Your consistency is louder than your doubts.",
+      "You’re not supposed to know everything before you study — that’s the point.",
+      "Your questions are valid, intelligent, and important.",
+      "One tiny task today is better than none.",
+      "In three months, you’ll look back and thank yourself.",
+      "When it feels heavy, break it into tiny pieces.",
+      "You deserve a life that feels good. Studying is part of that.",
+      "Confusion means your brain is expanding — keep going.",
+      "You’re capable of more than you think.",
+      "Even on your worst days, you’re still progressing.",
+      "You’re the type of woman who doesn’t quit.",
+      "Right now is the perfect time to start.",
+      "Your dream job is not out of reach — it’s out of comfort.",
+      "An improved life is built in silent moments like this.",
+      "Your talent will grow with your habits.",
+      "Someone less dedicated than you is passing this exam — so will you.",
+      "Every effort compounds. Nothing is wasted.",
+      "Be consistent for the woman you want to become.",
+      "You’re smarter than your doubts and louder than your fears.",
+      "Imagine how proud you’ll be walking into your first tech job.",
+      "Your study grind is changing your tax bracket.",
+      "You’re not doing this for the test — you’re doing it for your future lifestyle.",
+      "You’re allowed to be scared and still move forward.",
+      "Rest is productive when you come back with clarity.",
+      "If it feels overwhelming, pick ONE tiny task.",
+      "Some days discipline is love.",
+      "You don’t need motivation — you need momentum.",
+      "Tiny steps add up louder than big intentions.",
+      "You’re leveling up quietly and dramatically.",
+      "You’re becoming the woman you always said you'd be.",
+      "You’re not starting from zero. You’re starting from experience.",
+      "Your dream job will feel like a reward for nights like this.",
+      "Little by little becomes a lot.",
+      "You can want a soft life and still work hard for it.",
+      "Who you’re becoming is already proud of you.",
+      "There is room for you in tech — and it’s waiting.",
+      "You’re not behind. You’re aligning.",
+      "Imagine how good it will feel when this material finally clicks.",
+      "Your glow-up is not only looks — it’s skills too.",
+      "Your potential is unfolding in real time.",
+      "You are becoming unstoppable through consistency.",
+      "Every study session shifts your entire future.",
+      "Your attention is your superpower — use it gently.",
+      "You don’t have to learn everything today. Just something.",
+      "Your presence in tech matters more than your doubts.",
+      "You’re learning a skill that will change your lifestyle forever.",
+      "One small win today is still a win.",
+      "You’re doing something your future kids will brag about.",
+      "Discomfort now becomes confidence later.",
+      "Be proud of how far you’ve come — even if no one sees it.",
+      "You don’t quit. You regroup.",
+      "A girl in tech is dangerous in the best way.",
+      "Look at you — doing things you once thought you couldn’t.",
+      "Being overwhelmed doesn’t mean you’re unworthy — it means you care.",
+      "This chapter ends in certification and confidence.",
+      "You’re closer than you think. Seriously.",
+      "You’re building a foundation for a wealthy life.",
+      "You’re capable. You’re growing. You’re becoming.",
+      "Your life will look different six months from now — keep going.",
+      "You’re not stuck. You’re learning.",
+      "You’re not tired of studying — you’re tired of doubting yourself.",
+      "Your future self is smiling at you right now.",
+      "You’ve got this — and even when you don’t feel like it, you still do."
+    ];
+
+    function setRandomQuote() {
+      const index = Math.floor(Math.random() * quotes.length);
+      quoteText.textContent = quotes[index];
+    }
+
+    newQuoteBtn.addEventListener('click', setRandomQuote);
+
+    // --- TIMER LOGIC ---
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      const mm = m.toString().padStart(2, '0');
+      const ss = s.toString().padStart(2, '0');
+      return `${mm}:${ss}`;
+    }
+
+    function updateTimerDisplay() {
+      timerDisplay.textContent = formatTime(timerSeconds);
+    }
+
+    function startTimer() {
+      if (timerInterval) return; // already running
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          alert("Session complete! Nice work 💕");
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      timerSeconds = 25 * 60;
+      updateTimerDisplay();
+    }
+
+    timerStartBtn.addEventListener('click', startTimer);
+    timerPauseBtn.addEventListener('click', pauseTimer);
+    timerResetBtn.addEventListener('click', resetTimer);
+    updateTimerDisplay();
+
+    // --- SECURITY+ PROGRESS ---
+    function updateSecPlusProgress(value) {
+      const v = Number(value) || 0;
+      secPlusBar.style.width = v + "%";
+      secPlusLabel.textContent = v + "% complete";
+      localStorage.setItem("cyberStudySecPlus", v.toString());
+    }
+
+    function loadSecPlusProgress() {
+      const saved = localStorage.getItem("cyberStudySecPlus");
+      const value = saved ? Number(saved) : 0;
+      secPlusRange.value = value;
+      updateSecPlusProgress(value);
+    }
+
+    secPlusRange.addEventListener("input", (e) => {
+      updateSecPlusProgress(e.target.value);
+    });
+
+    // --- TASKS ---
+    function loadTasks() {
+      const saved = localStorage.getItem("cyberStudyTasks");
+      tasks = saved ? JSON.parse(saved) : [];
+      renderTasks();
+    }
+
+    function saveTasks() {
+      localStorage.setItem("cyberStudyTasks", JSON.stringify(tasks));
+      updateCalendarView();
+    }
+
+    function addTask() {
+      const title = titleInput.value.trim();
+      const category = categoryInput.value;
+      const energy = energyInput.value || "Medium";
+      const dueDate = dueDateInput.value;
+      const notes = notesInput.value.trim();
+
+      if (!title) {
+        alert("Please enter a task title.");
+        return;
+      }
+
+      const newTask = {
+        id: Date.now(),
+        title,
+        category,
+        energy,
+        dueDate,
+        notes,
+        completed: false
+      };
+      tasks.push(newTask);
+      saveTasks();
+      renderTasks();
+
+      titleInput.value = "";
+      notesInput.value = "";
+    }
+
+    addTaskBtn.addEventListener("click", addTask);
+
+    titleInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addTask();
+      }
+    });
+
+    function toggleComplete(id) {
+      tasks = tasks.map(task =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      );
+      saveTasks();
+      renderTasks();
+    }
+
+    function deleteTask(id) {
+      if (!confirm("Delete this task?")) return;
+      tasks = tasks.filter(task => task.id !== id);
+      saveTasks();
+      renderTasks();
+    }
+
+    function getBadgeClass(category) {
+      switch (category) {
+        case "Security+": return "badge security";
+        case "A+": return "badge aplus";
+        case "Python": return "badge py";
+        default: return "badge other";
+      }
+    }
+
+    // Today-only filter
+    function toggleTodayFilter() {
+      filterTodayOnly = !filterTodayOnly;
+      if (filterTodayOnly) {
+        todayToggleBtn.classList.add('active');
+        todayToggleBtn.textContent = '📅 Today only: On';
+      } else {
+        todayToggleBtn.classList.remove('active');
+        todayToggleBtn.textContent = '📅 Today only: Off';
+      }
+      renderTasks();
+    }
+
+    todayToggleBtn.addEventListener('click', toggleTodayFilter);
+
+    // Stats + snapshot + overview line
+    function updateTaskStats() {
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.completed).length;
+      const pending = total - completed;
+      const securityPending = tasks.filter(
+        t => t.category === "Security+" && !t.completed
+      ).length;
+
+      // Top stats numbers
+      statTotal.textContent = total;
+      statCompleted.textContent = completed;
+      statSecurityPending.textContent = securityPending;
+
+      taskStats.textContent = `${completed} of ${total} tasks completed`;
+
+      if (total === 0) {
+        snapshot.textContent = "No tasks yet — add one Security+ task to start the momentum ✨";
+        overviewLine.textContent = "Once you add tasks, this section will show a quick summary of your workload.";
+      } else {
+        let msg = `${pending} pending task${pending !== 1 ? "s" : ""}`;
+        if (securityPending > 0) {
+          msg += ` • ${securityPending} Security+ focused`;
+        } else {
+          msg += " • No Security+ tasks pending (maybe add one?)";
+        }
+        snapshot.textContent = msg;
+
+        const todayStr = new Date().toISOString().slice(0, 10);
+        const dueToday = tasks.filter(t => t.dueDate === todayStr && !t.completed).length;
+        overviewLine.textContent =
+          `Today: ${dueToday} due • Overall: ${total} total, ${completed} done, ${securityPending} Security+ left.`;
+      }
+    }
+
+    // Drag and drop
+    function handleDragStart(e) {
+      draggedId = Number(e.currentTarget.dataset.id);
+      e.currentTarget.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      const targetId = Number(e.currentTarget.dataset.id);
+      if (!draggedId || !targetId || draggedId === targetId) return;
+
+      const fromIndex = tasks.findIndex(t => t.id === draggedId);
+      const toIndex = tasks.findIndex(t => t.id === targetId);
+      if (fromIndex === -1 || toIndex === -1) return;
+
+      const [moved] = tasks.splice(fromIndex, 1);
+      tasks.splice(toIndex, 0, moved);
+
+      saveTasks();
+      renderTasks();
+    }
+
+    function handleDragEnd(e) {
+      e.currentTarget.classList.remove('dragging');
+      draggedId = null;
+    }
+
+    // Render tasks
+    function renderTasks() {
+      tasksContainer.innerHTML = "";
+      const catFilter = filterCategory.value;
+      const statusFilter = filterStatus.value;
+      const energyFilter = filterEnergy.value;
+      const todayStr = new Date().toISOString().slice(0, 10);
+
+      const filtered = tasks.filter(task => {
+        const matchCat = catFilter === "All" || task.category === catFilter;
+        const matchStatus =
+          statusFilter === "All" ||
+          (statusFilter === "Pending" && !task.completed) ||
+          (statusFilter === "Completed" && task.completed);
+        const taskEnergy = task.energy || "Medium";
+        const matchEnergy =
+          energyFilter === "All" || taskEnergy === energyFilter;
+        const matchToday =
+          !filterTodayOnly || (task.dueDate && task.dueDate === todayStr);
+        return matchCat && matchStatus && matchEnergy && matchToday;
+      });
+
+      updateTaskStats();
+      updateCalendarView();
+
+      if (filtered.length === 0) {
+        tasksContainer.innerHTML = '<p class="meta-text">No tasks match this view. Try a different filter or add a new task 😊</p>';
+        return;
+      }
+
+      filtered.forEach(task => {
+        const taskDiv = document.createElement("div");
+        taskDiv.className = "task" + (task.completed ? " completed" : "");
+        taskDiv.draggable = true;
+        taskDiv.dataset.id = task.id;
+
+        const infoDiv = document.createElement("div");
+        infoDiv.className = "task-info";
+
+        const titleEl = document.createElement("strong");
+        titleEl.textContent = task.title;
+
+        const metaEl = document.createElement("div");
+        const badge = document.createElement("span");
+        badge.className = getBadgeClass(task.category);
+        badge.textContent = task.category;
+
+        const dateText = task.dueDate ? `Due: ${task.dueDate}` : "No due date";
+        const dateSpan = document.createElement("span");
+        dateSpan.className = "meta-text";
+        dateSpan.textContent = " • " + dateText;
+
+        const energySpan = document.createElement("span");
+        energySpan.className = "meta-text";
+        energySpan.textContent = ` • Energy: ${task.energy || "Medium"}`;
+
+        metaEl.appendChild(badge);
+        metaEl.appendChild(dateSpan);
+        metaEl.appendChild(energySpan);
+
+        const notesEl = document.createElement("div");
+        notesEl.className = "meta-text";
+        notesEl.textContent = task.notes || "";
+
+        infoDiv.appendChild(titleEl);
+        infoDiv.appendChild(metaEl);
+        if (task.notes) infoDiv.appendChild(notesEl);
+
+        const actionsDiv = document.createElement("div");
+        const toggleBtn = document.createElement("button");
+        toggleBtn.textContent = task.completed ? "Unmark" : "Complete";
+        toggleBtn.className = "btn-small complete-btn";
+        toggleBtn.onclick = () => toggleComplete(task.id);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.className = "btn-small delete-btn";
+        deleteBtn.onclick = () => deleteTask(task.id);
+
+        actionsDiv.appendChild(toggleBtn);
+        actionsDiv.appendChild(deleteBtn);
+
+        taskDiv.appendChild(infoDiv);
+        taskDiv.appendChild(actionsDiv);
+
+        // drag events
+        taskDiv.addEventListener('dragstart', handleDragStart);
+        taskDiv.addEventListener('dragover', handleDragOver);
+        taskDiv.addEventListener('drop', handleDrop);
+        taskDiv.addEventListener('dragend', handleDragEnd);
+
+        tasksContainer.appendChild(taskDiv);
+      });
+    }
+
+    filterCategory.addEventListener("change", renderTasks);
+    filterStatus.addEventListener("change", renderTasks);
+    filterEnergy.addEventListener("change", renderTasks);
+
+    // Journal
+    function loadJournal() {
+      const saved = localStorage.getItem("cyberStudyJournal");
+      if (saved) {
+        journalTextarea.value = saved;
+        journalStatus.textContent = "Last saved journal loaded.";
+      }
+    }
+
+    function saveJournal() {
+      localStorage.setItem("cyberStudyJournal", journalTextarea.value);
+      const now = new Date();
+      journalStatus.textContent =
+        "Saved at " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    saveJournalBtn.addEventListener("click", saveJournal);
+
+    // Calendar / planner
+    function updateCalendarView() {
+      const dateStr = calendarDateInput.value;
+      if (!dateStr) {
+        calendarSummary.textContent = "No date selected yet.";
+        calendarTasks.innerHTML = "";
+        return;
+      }
+
+      const tasksForDate = tasks.filter(t => t.dueDate === dateStr);
+      if (tasksForDate.length === 0) {
+        calendarSummary.textContent = `No tasks due on ${dateStr}.`;
+        calendarTasks.innerHTML = "";
+        return;
+      }
+
+      calendarSummary.textContent = `${tasksForDate.length} task(s) due on ${dateStr}:`;
+      calendarTasks.innerHTML = "";
+      tasksForDate.forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'calendar-task-item';
+        div.textContent = `• [${t.category}] ${t.title}`;
+        calendarTasks.appendChild(div);
+      });
+    }
+
+    calendarDateInput.addEventListener('change', updateCalendarView);
+
+    // Copy today summary
+    function copyTodaySummary() {
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const todayTasks = tasks.filter(t => t.dueDate === todayStr);
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.completed).length;
+      const pending = total - completed;
+
+      let text = `CyberStudy Planner — Today (${todayStr})\n\n`;
+      text += `Total tasks: ${total}\nCompleted: ${completed}\nPending: ${pending}\n\n`;
+
+      if (todayTasks.length === 0) {
+        text += "No tasks due today.\n";
+      } else {
+        text += "Tasks due today:\n";
+        todayTasks.forEach(t => {
+          text += `- [${t.category}] (${t.energy || "Medium"} energy) ${t.title}`;
+          if (t.notes) text += ` — ${t.notes}`;
+          text += "\n";
+        });
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            const oldText = copySummaryBtn.textContent;
+            copySummaryBtn.textContent = "✅ Copied!";
+            setTimeout(() => {
+              copySummaryBtn.textContent = oldText;
+            }, 1500);
+          })
+          .catch(() => {
+            alert("Could not copy automatically. Here’s your summary:\n\n" + text);
+          });
+      } else {
+        alert("Copy this summary:\n\n" + text);
+      }
+    }
+
+    copySummaryBtn.addEventListener('click', copyTodaySummary);
+
+    // INIT
+    loadTheme();
+    loadSecPlusProgress();
+    loadTasks();
+    loadJournal();
+    setRandomQuote();
+  </script>
+</body>
+</html>
