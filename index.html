@@ -2,1371 +2,1680 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CyberStudy Planner · Fanta Kabia</title>
+  <title>CyberFlash Lab · Security+ Cards</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      /* Nude / neutral cyber girl vibe – light theme defaults */
-      --bg-color: radial-gradient(circle at top, #f4ede4 0, #f1e6d8 40%, #e2d3c5 75%, #cbb6a1 100%);
-      --card-bg: rgba(255, 252, 247, 0.98);
-      --text-color: #292524;
-      --muted-text: #6b5c52;
-      --accent: #c08a6a;
-      --accent-soft: #f3e5da;
-      --border-soft: rgba(148, 116, 96, 0.4);
-      --pill-bg: rgba(255, 255, 255, 0.7);
+      --bg-main: radial-gradient(circle at top, #050816 0, #02010b 35%, #000000 100%);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+
+      --danger: #fb7185;
+      --success: #4ade80;
+      --warn: #f59e0b;
+
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.9);
+
+      --input-bg: #020617;
+      --header-bg: linear-gradient(to right, rgba(15,23,42,0.92), rgba(17,24,39,0.98));
+      --chip-bg: rgba(15,23,42,0.85);
+      --btn-nav-bg: rgba(15,23,42,0.98);
+      --panel-bg: radial-gradient(circle at top left, rgba(15,118,255,0.18), rgba(15,23,42,0.97));
+      --panel-bg-right: radial-gradient(circle at top, rgba(56,189,248,0.06), rgba(15,23,42,0.97));
     }
 
-    body.dark-theme {
-      --bg-color: radial-gradient(circle at top, #1b1411 0, #120f0d 40%, #090605 100%);
-      --card-bg: rgba(24, 18, 15, 0.96);
-      --text-color: #fdf5ed;
-      --muted-text: #d1b8a6;
-      --accent: #e2a37f;
-      --accent-soft: #291f19;
-      --border-soft: rgba(226, 163, 127, 0.6);
-      --pill-bg: rgba(26, 20, 17, 0.9);
+    body.light-mode {
+      --bg-main: radial-gradient(circle at top, #f8fafc 0, #eef2ff 35%, #ffffff 100%);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+
+      --border-subtle: rgba(15, 23, 42, 0.18);
+      --shadow-soft: 0 16px 34px rgba(2, 6, 23, 0.12);
+
+      --input-bg: #f1f5f9;
+      --header-bg: linear-gradient(to right, rgba(255,255,255,0.92), rgba(241,245,249,0.98));
+      --chip-bg: rgba(241,245,249,0.9);
+      --btn-nav-bg: rgba(241,245,249,0.95);
+      --panel-bg: radial-gradient(circle at top left, rgba(56,189,248,0.10), rgba(255,255,255,0.97));
+      --panel-bg-right: radial-gradient(circle at top, rgba(99,102,241,0.08), rgba(255,255,255,0.97));
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
       margin: 0;
       padding: 0;
       min-height: 100vh;
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    .container {
-      max-width: 1100px;
+    .shell {
+      max-width: 1150px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 18px 16px 26px;
     }
 
     header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--header-bg);
+      border: 1px solid rgba(148,163,184,0.45);
+      box-shadow: var(--shadow-soft);
     }
 
-    h1 {
+    body.light-mode header {
+      border: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: radial-gradient(circle at top, #38bdf8 0, #0f172a 45%, #020617 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fira Code", monospace;
+      font-size: 0.85rem;
+      color: #e5f9ff;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+    }
+
+    .brand-text h1 {
+      font-size: 1.4rem;
       margin: 0;
-      font-size: 1.9rem;
     }
 
-    .subtitle {
-      font-size: 0.9rem;
-      color: var(--muted-text);
-      margin-top: 4px;
+    .brand-text p {
+      margin: 2px 0 0;
+      font-size: 0.75rem;
+      color: var(--text-muted);
     }
 
-    .header-row {
+    .header-right {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-    }
-
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
+      align-items: flex-end;
       gap: 6px;
     }
 
-    .pill {
+    .chip-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      color: var(--text-muted);
+      background: var(--chip-bg);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      border-radius: 999px;
-      padding: 3px 10px;
-      background: var(--pill-bg);
-      border: 1px solid rgba(180, 152, 130, 0.4);
-      color: var(--muted-text);
-      font-size: 0.75rem;
     }
 
-    .pill-dot {
+    body.light-mode .chip { border: 1px solid rgba(15, 23, 42, 0.14); }
+
+    .chip-dot {
       width: 7px;
       height: 7px;
       border-radius: 999px;
       background: #22c55e;
+      box-shadow: 0 0 10px rgba(34,197,94,0.9);
     }
 
-    .top-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
+    .mode-label {
+      font-family: "Fira Code", monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
     }
 
-    .header-btn {
-      background: transparent;
-      border: 1px solid rgba(148, 116, 96, 0.8);
-      color: var(--text-color);
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-
-    .header-btn.active {
-      background: var(--accent-soft);
-      border-color: var(--accent);
-      font-weight: 500;
-    }
-
-    /* Layout */
-    .layout {
+    .grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.9fr) minmax(0, 1.2fr);
-      gap: 18px;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.4fr);
+      gap: 16px;
       margin-top: 16px;
+      align-items: start;
     }
 
-    @media (max-width: 880px) {
-      .layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .top-actions {
-        align-items: flex-start;
-      }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      header { align-items: flex-start; flex-direction: column; }
+      .header-right { align-items: flex-start; }
     }
 
-    .card {
-      background: var(--card-bg);
+    .panel {
+      background: var(--panel-bg);
       border-radius: 16px;
-      padding: 18px 20px;
-      margin-top: 15px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
-      border: 1px solid var(--border-soft);
+      padding: 14px 14px 16px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
     }
+
+    .panel--right { background: var(--panel-bg-right); }
 
     h2 {
-      margin: 0 0 8px;
-      font-size: 1.1rem;
+      margin: 0;
+      font-size: 1rem;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    h2 span.emoji {
-      font-size: 1.1rem;
+    .title-tag {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-family: "Fira Code", monospace;
     }
 
     .section-subtitle {
-      font-size: 0.78rem;
-      color: var(--muted-text);
-      margin: 2px 0 10px;
+      margin: 4px 0 10px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
     }
 
     label {
       display: block;
       margin-top: 10px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
-    input, select, button, textarea {
+    select, input[type="number"], input[type="text"] {
       width: 100%;
-      padding: 8px 10px;
       margin-top: 5px;
-      border-radius: 8px;
-      border: none;
-      font-size: 0.9rem;
-      font-family: inherit;
+      border-radius: 9px;
+      padding: 7px 9px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-family: "Fira Code", monospace;
+      font-size: 0.8rem;
     }
 
-    input, select, textarea {
-      background: #f6ece1;
-      color: #292524;
-    }
-
-    body.dark-theme input,
-    body.dark-theme select,
-    body.dark-theme textarea {
-      background: #1a1411;
-      color: #fdf5ed;
+    body.light-mode select,
+    body.light-mode input[type="number"],
+    body.light-mode input[type="text"],
+    body.light-mode textarea {
+      border: 1px solid rgba(15, 23, 42, 0.14);
     }
 
     textarea {
+      width: 100%;
+      margin-top: 6px;
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-family: "Fira Code", monospace;
+      font-size: 0.8rem;
       resize: vertical;
+      min-height: 90px;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      outline: 1px solid var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.4);
     }
 
     button {
-      background: var(--accent);
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 15px;
       border-radius: 999px;
+      padding: 7px 14px;
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: "Space Grotesk", system-ui;
+      background: linear-gradient(to right, #38bdf8, #6366f1);
+      color: #0b1120;
+      margin-top: 10px;
     }
 
-    button:hover {
-      opacity: 0.95;
-    }
+    button:hover { filter: brightness(1.05); }
 
     .btn-small {
-      width: auto;
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      margin-top: 0;
-    }
-
-    .filters {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .filters select {
-      flex: 1;
-    }
-
-    .tasks {
-      margin-top: 10px;
-    }
-
-    .task {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--accent-soft);
-      padding: 10px 12px;
-      border-radius: 10px;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      gap: 10px;
-      cursor: grab;
-    }
-
-    .task.dragging {
-      opacity: 0.5;
-      border: 1px dashed var(--accent);
-    }
-
-    .task-info {
-      max-width: 75%;
-    }
-
-    .task strong {
-      display: block;
-      margin-bottom: 3px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      margin-right: 6px;
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .badge.security { background: #d97757; }
-    .badge.aplus { background: #5c9f6b; }
-    .badge.py { background: #d3a550; color: #211; }
-    .badge.other { background: #b68bb3; }
-
-    .meta-text {
-      font-size: 0.75rem;
-      color: var(--muted-text);
-    }
-
-    .task button {
-      width: auto;
-      padding: 5px 9px;
-      font-size: 0.75rem;
-      margin-top: 0;
-    }
-
-    .task .complete-btn {
-      background: #5c9f6b;
-    }
-
-    .task .delete-btn {
-      background: #b68bb3;
-      margin-top: 5px;
-    }
-
-    .task.completed {
-      opacity: 0.6;
-      text-decoration: line-through;
-    }
-
-    #taskStats,
-    #snapshot,
-    #overviewLine {
-      margin-top: 6px;
-      font-size: 0.8rem;
-      color: var(--muted-text);
-    }
-
-    /* Quick stats row */
-    .stats-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .stat-chip {
-      flex: 1;
-      min-width: 110px;
-      border-radius: 12px;
       padding: 6px 10px;
-      background: var(--accent-soft);
-      font-size: 0.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+      font-size: 0.72rem;
+      margin-top: 0;
     }
 
-    .stat-label {
-      color: var(--muted-text);
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid rgba(56,189,248,0.4);
     }
 
-    .stat-value {
-      font-weight: 600;
+    .btn-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid rgba(251,113,133,0.55);
     }
 
-    /* Security+ */
-    .progress-bar-outer {
-      width: 100%;
-      height: 12px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      overflow: hidden;
-      margin-top: 6px;
-    }
-
-    .progress-bar-inner {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #e2a37f, #f4d3a1);
-      transition: width 0.25s ease;
-    }
-
-    .progress-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 6px;
-      font-size: 0.85rem;
-    }
-
-    .progress-row input[type="range"] {
-      flex: 1;
-    }
-
-    /* Motivation section */
-    #quoteText {
-      font-size: 0.85rem;
-      color: var(--muted-text);
-      margin-top: 6px;
-      font-style: italic;
-    }
-
-    .prompt-list {
-      margin-top: 10px;
-      padding-left: 16px;
-      font-size: 0.78rem;
-      color: var(--muted-text);
-    }
-
-    .prompt-list li {
-      margin-bottom: 4px;
-    }
-
-    /* Timer */
-    .timer-display {
-      font-size: 1.6rem;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    .timer-buttons {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .timer-buttons button {
-      flex: 1;
-    }
-
-    .card-divider {
-      border: none;
-      border-top: 1px solid rgba(180, 152, 130, 0.4);
-      margin: 14px 0 10px;
-    }
-
-    #journal {
-      min-height: 120px;
-    }
-
-    /* Calendar / planner */
-    .calendar-summary {
-      font-size: 0.8rem;
-      color: var(--muted-text);
-      margin-top: 6px;
-    }
-
-    .calendar-tasks {
-      margin-top: 8px;
-      font-size: 0.85rem;
-    }
-
-    .calendar-task-item {
-      margin-bottom: 4px;
-    }
-
-    /* Portfolio sections */
-    .portfolio-section {
-      margin-top: 32px;
-    }
-
-    .chip-row {
+    .stack-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
-    .chip {
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      background: var(--accent-soft);
-      color: var(--muted-text);
-    }
-
-    .link-row {
-      margin-top: 10px;
+    .stats-row {
       display: flex;
+      gap: 8px;
       flex-wrap: wrap;
-      gap: 10px;
+      margin-top: 10px;
     }
 
-    .link-row a {
-      font-size: 0.8rem;
-      text-decoration: none;
+    .stat-block {
+      flex: 1;
+      min-width: 120px;
+      border-radius: 11px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.5);
+      padding: 8px 10px;
+    }
+
+    body.light-mode .stat-block {
+      background: rgba(248,250,252,0.95);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      margin-top: 3px;
+      font-size: 0.9rem;
+      font-family: "Fira Code", monospace;
+    }
+
+    .stat-value--ok { color: var(--success); }
+    .stat-value--warn { color: var(--danger); }
+    .stat-value--due { color: var(--warn); }
+
+    .progress-bar {
+      margin-top: 8px;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+
+    body.light-mode .progress-bar {
+      background: rgba(241,245,249,0.95);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #38bdf8, #a855f7);
+      transition: width 0.18s ease-out;
+    }
+
+    .terminal-title {
+      font-family: "Fira Code", monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 4px 0 8px;
+    }
+
+    .terminal-title span { color: var(--accent); }
+
+    .notes-status {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-family: "Fira Code", monospace;
+    }
+
+    /* Flashcards */
+    .card-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .flashcard-large {
+      width: 100%;
+      max-width: 520px;
+      min-height: 220px;
+      border-radius: 18px;
+      padding: 20px 20px 16px;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.08), #020617);
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: 0 18px 32px rgba(15,23,42,0.9);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      overflow: hidden;
+    }
+
+    body.light-mode .flashcard-large {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.12), #ffffff);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      box-shadow: 0 16px 30px rgba(2, 6, 23, 0.12);
+    }
+
+    .flashcard-large:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 40px rgba(15,23,42,1);
+      border-color: rgba(56,189,248,0.9);
+    }
+
+    body.light-mode .flashcard-large:hover {
+      box-shadow: 0 18px 34px rgba(2, 6, 23, 0.16);
+    }
+
+    .flashcard-large.card-know {
+      border-color: rgba(74,222,128,0.95);
+      box-shadow: 0 0 24px rgba(74,222,128,0.6);
+    }
+
+    .flashcard-large.card-review {
+      border-color: rgba(248,113,113,0.95);
+      box-shadow: 0 0 24px rgba(248,113,113,0.6);
+    }
+
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: "Fira Code", monospace;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(148,163,184,0.5);
+    }
+
+    body.light-mode .tag { border: 1px solid rgba(15, 23, 42, 0.14); }
+
+    .tag-topic {
+      border-color: rgba(56,189,248,0.7);
       color: var(--accent);
     }
 
-    .link-row a:hover {
-      text-decoration: underline;
+    .tag-easy { border-color: rgba(74,222,128,0.8); color: var(--success); }
+    .tag-medium { border-color: rgba(234,179,8,0.8); color: #eab308; }
+    .tag-hard { border-color: rgba(248,113,113,0.85); color: var(--danger); }
+
+    .tag-due {
+      border-color: rgba(245,158,11,0.8);
+      color: var(--warn);
     }
 
-    .project-list {
+    .card-body {
+      margin-top: 4px;
+      min-height: 130px;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-text-front,
+    .card-text-back {
+      font-size: 0.95rem;
+      font-family: "Fira Code", monospace;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .card-text-back {
+      display: none;
+      color: #e0f2fe;
+    }
+
+    body.light-mode .card-text-back {
+      color: var(--text-main);
+      opacity: 0.92;
+    }
+
+    .flashcard-large.flipped .card-text-front { display: none; }
+    .flashcard-large.flipped .card-text-back { display: block; }
+
+    .card-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-top: 8px;
-      padding-left: 18px;
-      font-size: 0.85rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: "Fira Code", monospace;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .project-list li {
+    .card-status-pill {
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid rgba(148,163,184,0.5);
+      font-size: 0.7rem;
+    }
+
+    .card-status-none { color: var(--text-muted); }
+    .card-status-know { color: var(--success); border-color: rgba(74,222,128,0.8); }
+    .card-status-review { color: var(--danger); border-color: rgba(248,113,113,0.8); }
+
+    .card-actions-main {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .btn-know {
+      background: linear-gradient(to right, #4ade80, #22c55e);
+      color: #052e16;
+    }
+
+    .btn-review {
+      background: linear-gradient(to right, #fb7185, #f97316);
+      color: #450a0a;
+    }
+
+    .btn-correct {
+      background: linear-gradient(to right, #4ade80, #38bdf8);
+      color: #052e16;
+    }
+
+    .btn-again {
+      background: linear-gradient(to right, #fb7185, #f59e0b);
+      color: #450a0a;
+    }
+
+    .btn-nav {
+      background: var(--btn-nav-bg);
+      color: var(--accent);
+      border: 1px solid rgba(56,189,248,0.45);
+    }
+
+    body.light-mode .btn-nav { border: 1px solid rgba(15, 23, 42, 0.14); }
+
+    .hint-keys {
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-family: "Fira Code", monospace;
+      text-align: center;
+    }
+
+    .quote-box {
+      border-radius: 11px;
+      padding: 9px 10px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.55);
+      font-size: 0.78rem;
+      color: #e5e7eb;
+      font-family: "Fira Code", monospace;
+      line-height: 1.5;
+      margin-top: 10px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    body.light-mode .quote-box {
+      background: rgba(248,250,252,0.95);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      color: var(--text-main);
+    }
+
+    .quote-label {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-family: "Fira Code", monospace;
       margin-bottom: 4px;
     }
 
-    footer {
-      text-align: center;
-      margin: 20px 0 5px;
-      font-size: 0.8rem;
-      color: var(--muted-text);
+    .divider {
+      height: 1px;
+      background: rgba(148,163,184,0.22);
+      margin: 12px 0;
     }
 
-    @media (max-width: 720px) {
-      header {
-        flex-direction: column;
-      }
-      .task-info {
-        max-width: 65%;
-      }
+    footer {
+      margin-top: 20px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-family: "Fira Code", monospace;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="shell">
     <header>
-      <div class="header-row">
-        <div>
-          <h1>CyberStudy Planner</h1>
-          <p class="subtitle">
-            Calm neutral dashboard for Security+, IT, and study check-ins.
-          </p>
-        </div>
-        <div class="tag-row">
-          <div class="pill">
-            <span class="pill-dot"></span>
-            Student project · Built by Fanta Kabia
-          </div>
-          <div class="pill">🛡️ Security+ · 💻 IT · ☁️ Cloud</div>
+      <div class="brand-block">
+        <div class="brand-logo"><span>CF</span></div>
+        <div class="brand-text">
+          <h1>CyberFlash Lab</h1>
+          <p>Security+ flashcards in a coding-style workspace.</p>
         </div>
       </div>
-      <div class="top-actions">
-        <button id="themeToggle" class="header-btn">☾ Dark mode</button>
-        <button id="todayToggle" class="header-btn">📅 Today only: Off</button>
+      <div class="header-right">
+        <div class="chip-row">
+          <div class="chip">
+            <span class="chip-dot"></span>
+            <span>session: secplus_study</span>
+          </div>
+          <div class="chip">
+            <span class="mode-label">mode:</span> spaced_review
+          </div>
+        </div>
+        <button id="themeToggle" class="btn-small btn-ghost" type="button">Toggle theme</button>
       </div>
     </header>
 
-    <!-- MAIN LAYOUT -->
-    <div class="layout">
-      <!-- LEFT COLUMN: Progress + Tasks -->
-      <div>
-        <!-- Security+ Progress -->
-        <div class="card">
-          <h2><span class="emoji">🛡️</span> Security+ Progress</h2>
-          <p class="section-subtitle">
-            Track how ready you feel. Use this like a confidence meter, not a grade.
-          </p>
-          <div class="progress-row">
-            <span id="secPlusLabel" class="meta-text">0% complete</span>
-            <span class="meta-text">Goal: 100%</span>
+    <div class="grid">
+      <!-- LEFT PANEL -->
+      <div class="panel">
+        <h2>
+          Deck Controls
+          <span class="title-tag">// configure</span>
+        </h2>
+        <p class="section-subtitle">
+          Generate a deck, or study only what is due today.
+        </p>
+
+        <label>
+          Topic
+          <select id="topicSelect">
+            <option value="all">all_topics</option>
+            <option value="threats">threats_attacks</option>
+            <option value="network">networking_ports</option>
+            <option value="identity">identity_access</option>
+            <option value="crypto">cryptography</option>
+            <option value="ops">sec_operations</option>
+          </select>
+        </label>
+
+        <label>
+          Difficulty
+          <select id="difficultySelect">
+            <option value="all">all_levels</option>
+            <option value="easy">easy_mode</option>
+            <option value="medium">standard</option>
+            <option value="hard">hardcore</option>
+          </select>
+        </label>
+
+        <label>
+          Cards per deck
+          <input id="countInput" type="number" min="3" max="25" value="10" />
+        </label>
+
+        <label>
+          Session goal (cards to mark)
+          <input id="goalInput" type="number" min="3" max="50" value="10" />
+        </label>
+
+        <button id="generateBtn" type="button">generate_deck()</button>
+
+        <div class="stack-row">
+          <button id="dueBtn" class="btn-small btn-ghost" type="button">study_due()</button>
+          <button id="continueBtn" class="btn-small btn-ghost" type="button">continue_session()</button>
+          <button id="resetMarksBtn" class="btn-small btn-ghost" type="button">reset_marks()</button>
+          <button id="copySummaryBtn" class="btn-small btn-ghost" type="button">copy_session_summary()</button>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-block">
+            <div class="stat-label">cards_in_deck</div>
+            <div class="stat-value" id="statTotal">0</div>
           </div>
-          <div class="progress-bar-outer">
-            <div id="secPlusBar" class="progress-bar-inner"></div>
+          <div class="stat-block">
+            <div class="stat-label">know_this</div>
+            <div class="stat-value stat-value--ok" id="statKnow">0</div>
           </div>
-          <div class="progress-row">
-            <span class="meta-text">Adjust progress:</span>
-            <input id="secPlusRange" type="range" min="0" max="100" value="0" />
+          <div class="stat-block">
+            <div class="stat-label">review_later</div>
+            <div class="stat-value stat-value--warn" id="statReview">0</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-label">due_today</div>
+            <div class="stat-value stat-value--due" id="statDue">0</div>
           </div>
         </div>
 
-        <!-- Tasks: add + list -->
-        <div class="card">
-          <h2><span class="emoji">📋</span> Tasks & Study Plan</h2>
-          <p class="section-subtitle">
-            Add anything you want to get done: labs, videos, chapters, practice questions.
-          </p>
-
-          <!-- Quick stats -->
-          <div class="stats-row">
-            <div class="stat-chip">
-              <span class="stat-label">Total tasks</span>
-              <span class="stat-value" id="statTotal">0</span>
-            </div>
-            <div class="stat-chip">
-              <span class="stat-label">Completed</span>
-              <span class="stat-value" id="statCompleted">0</span>
-            </div>
-            <div class="stat-chip">
-              <span class="stat-label">Security+ focus</span>
-              <span class="stat-value" id="statSecurityPending">0</span>
-            </div>
-          </div>
-
-          <p id="overviewLine"></p>
-
-          <!-- Add Task Inline -->
-          <label>
-            Task Title
-            <input id="title" type="text" placeholder="Ex: Review Security+ Domain 1" />
-          </label>
-
-          <label>
-            Category
-            <select id="category">
-              <option value="Security+">Security+</option>
-              <option value="A+">A+</option>
-              <option value="Python">Python</option>
-              <option value="Networking">Networking</option>
-              <option value="Other">Other</option>
-            </select>
-          </label>
-
-          <label>
-            Energy level
-            <select id="energy">
-              <option value="Low">Low</option>
-              <option value="Medium" selected>Medium</option>
-              <option value="High">High</option>
-            </select>
-          </label>
-
-          <label>
-            Due Date
-            <input id="dueDate" type="date" />
-          </label>
-
-          <label>
-            Notes (optional)
-            <textarea id="notes" rows="2" placeholder="Key topics, chapters, links, or question types to review"></textarea>
-          </label>
-
-          <button id="addTaskBtn">Add Task</button>
-          <p class="meta-text" style="margin-top:6px;">
-            Tip: Press <strong>Enter</strong> in the title box to add a task faster.
-          </p>
-
-          <div class="filters">
-            <select id="filterCategory">
-              <option value="All">All Categories</option>
-              <option value="Security+">Security+</option>
-              <option value="A+">A+</option>
-              <option value="Python">Python</option>
-              <option value="Networking">Networking</option>
-              <option value="Other">Other</option>
-            </select>
-            <select id="filterStatus">
-              <option value="All">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-            </select>
-            <select id="filterEnergy">
-              <option value="All">All Energy</option>
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-            </select>
-          </div>
-
-          <p id="taskStats">0 of 0 tasks completed</p>
-          <p id="snapshot"></p>
-
-          <button id="copySummaryBtn" class="btn-small" style="margin-top:4px;">
-            📋 Copy today summary
-          </button>
-
-          <div id="tasks" class="tasks"></div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
         </div>
+
+        <p id="sessionSummary" class="terminal-title">
+          <span>session:</span> no_deck_loaded
+        </p>
+
+        <div class="divider"></div>
+
+        <h2 style="font-size:0.9rem;margin-bottom:3px;">
+          Session Notes
+          <span class="title-tag">// saved locally</span>
+        </h2>
+        <p class="section-subtitle">
+          Capture ports, acronyms, patterns, and reminders.
+        </p>
+        <textarea id="notesArea" placeholder="443 = https, 80 = http, 3389 = rdp, 22 = ssh, 53 = dns"></textarea>
+        <div class="stack-row">
+          <button id="saveNotesBtn" class="btn-small" type="button">save_notes()</button>
+          <button id="exportBtn" class="btn-small btn-ghost" type="button">export_data()</button>
+          <button id="importBtn" class="btn-small btn-ghost" type="button">import_data()</button>
+          <button id="clearAllBtn" class="btn-small btn-danger" type="button">clear_all_data()</button>
+          <input id="importFile" type="file" accept="application/json" style="display:none;" />
+        </div>
+        <p id="notesStatus" class="notes-status">notes not saved.</p>
+
+        <div class="divider"></div>
+
+        <h2 style="font-size:0.9rem;margin-bottom:3px;">
+          Custom Cards
+          <span class="title-tag">// add your own</span>
+        </h2>
+        <p class="section-subtitle">
+          Add questions you miss often. Saved and included in due-review.
+        </p>
+
+        <label>
+          Custom topic
+          <select id="customTopic">
+            <option value="threats">threats_attacks</option>
+            <option value="network">networking_ports</option>
+            <option value="identity">identity_access</option>
+            <option value="crypto">cryptography</option>
+            <option value="ops">sec_operations</option>
+          </select>
+        </label>
+
+        <label>
+          Custom difficulty
+          <select id="customDifficulty">
+            <option value="easy">easy_mode</option>
+            <option value="medium">standard</option>
+            <option value="hard">hardcore</option>
+          </select>
+        </label>
+
+        <label>
+          Question
+          <input id="customQ" type="text" placeholder="e.g. What port is DNS?" />
+        </label>
+
+        <label>
+          Answer
+          <input id="customA" type="text" placeholder="e.g. 53 (TCP/UDP)" />
+        </label>
+
+        <button id="addCustomBtn" class="btn-small" type="button">add_custom_card()</button>
+        <p id="customStatus" class="notes-status" style="margin-top:8px;">custom cards: 0</p>
       </div>
 
-      <!-- RIGHT COLUMN: Motivation + Journal + Calendar -->
-      <div>
-        <!-- Motivation + Timer -->
-        <div class="card">
-          <h2><span class="emoji">✨</span> Mindset & Motivation</h2>
-          <p class="section-subtitle">
-            Focus timer + reminders so you don’t psych yourself out while leveling up.
-          </p>
+      <!-- RIGHT PANEL -->
+      <div class="panel panel--right">
+        <h2>
+          Flashcard Deck
+          <span class="title-tag">// click_to_flip</span>
+        </h2>
+        <p class="section-subtitle">
+          Flip, then grade: correct schedules forward, again brings it back sooner.
+        </p>
 
-          <!-- Timer block -->
-          <p class="section-subtitle">Focus session timer (25 minutes)</p>
-          <div id="timerDisplay" class="timer-display">25:00</div>
-          <div class="timer-buttons">
-            <button id="timerStart" class="btn-small">Start</button>
-            <button id="timerPause" class="btn-small">Pause</button>
-            <button id="timerReset" class="btn-small">Reset</button>
+        <label style="margin-top:4px; font-size:0.78rem;">
+          Filter / jump by keyword (press Enter)
+          <input id="searchInput" type="text" placeholder="e.g. firewall, ransomware, CIA triad" />
+        </label>
+
+        <div class="card-stage">
+          <div id="flashcard" class="flashcard-large" style="display:none;">
+            <div class="card-header-row">
+              <div class="card-tags">
+                <span id="topicTag" class="tag tag-topic">topic</span>
+                <span id="difficultyTag" class="tag">level</span>
+                <span id="dueTag" class="tag tag-due" style="display:none;">due</span>
+              </div>
+              <div id="cardIndexLabel">card 0/0</div>
+            </div>
+
+            <div class="card-body">
+              <div id="cardFront" class="card-text-front">generate a deck to start.</div>
+              <div id="cardBack" class="card-text-back">// answer will appear here.</div>
+            </div>
+
+            <div class="card-footer-row">
+              <span id="cardStatusPill" class="card-status-pill card-status-none">
+                status: not_answered
+              </span>
+              <span id="srInfo" class="card-status-pill">sr: not_scheduled</span>
+              <span id="hintLabel">hint: click card or press [space] to flip</span>
+            </div>
           </div>
 
-          <hr class="card-divider" />
-
-          <!-- Quotes -->
-          <p class="section-subtitle">Daily reminder</p>
-          <p id="quoteText">Loading motivation…</p>
-          <button id="newQuoteBtn" class="btn-small" style="margin-top:8px;width:auto;">
-            New quote
-          </button>
-
-          <ul class="prompt-list">
-            <li>What’s one tiny thing I can finish in the next 25 minutes?</li>
-            <li>What topic makes me the most nervous for the exam? Put it on the plan.</li>
-            <li>What did I already do this week that I can give myself credit for?</li>
-          </ul>
-        </div>
-
-        <!-- Journal -->
-        <div class="card">
-          <h2><span class="emoji">📝</span> Notes & Journal</h2>
-          <p class="section-subtitle">
-            Use this for thoughts, wins, frustrations, or anything you don’t want to forget.
+          <p id="emptyMsg" class="terminal-title" style="text-align:center;margin-top:16px;">
+            <span>deck:</span> none_loaded
           </p>
-          <textarea id="journal" placeholder="Write anything you want to remember or release here..."></textarea>
-          <button id="saveJournalBtn">Save Journal</button>
-          <p class="meta-text" id="journalStatus">Not saved yet.</p>
-        </div>
 
-        <!-- Calendar -->
-        <div class="card">
-          <h2><span class="emoji">📆</span> Calendar & Planner</h2>
-          <p class="section-subtitle">
-            Pick a date to see what’s due. Good for mapping out exam week and finals.
-          </p>
-          <label>
-            Date
-            <input id="calendarDate" type="date" />
-          </label>
-          <p class="calendar-summary" id="calendarSummary">No date selected yet.</p>
-          <div id="calendarTasks" class="calendar-tasks"></div>
+          <div class="card-actions-main">
+            <button id="prevBtn" class="btn-small btn-nav" type="button">prev_card()</button>
+            <button id="flipBtn" class="btn-small btn-nav" type="button">flip_card()</button>
+            <button id="nextBtn" class="btn-small btn-nav" type="button">next_card()</button>
+
+            <button id="againBtn" class="btn-small btn-again" type="button">mark_again()</button>
+            <button id="correctBtn" class="btn-small btn-correct" type="button">mark_correct()</button>
+
+            <button id="knowBtn" class="btn-small btn-know" type="button">mark_know()</button>
+            <button id="reviewBtn" class="btn-small btn-review" type="button">mark_review()</button>
+
+            <button id="shuffleBtn" class="btn-small btn-nav" type="button">shuffle_deck()</button>
+          </div>
+
+          <div class="hint-keys">
+            keys: ← prev · → next · space flip · A again · C correct · 1 know · 2 review
+          </div>
+
+          <div class="quote-box">
+            <div class="quote-label">focus_reminder</div>
+            <div id="quoteBoxContent">loading...</div>
+            <button id="newQuoteBtn" class="btn-small btn-ghost" style="margin-top:8px;" type="button">
+              new_reminder()
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Portfolio-style section -->
-    <section class="portfolio-section" id="fanta-portfolio">
-      <div class="card">
-        <h2><span class="emoji">👩🏽‍💻</span> About Fanta</h2>
-        <p class="section-subtitle">
-          Aspiring cybersecurity / IT professional and Towson student, building tools that
-          make studying and tech careers feel more organized, soft, and possible.
-        </p>
-        <p style="font-size:0.85rem;">
-          I created CyberStudy Planner to support my own journey toward Security+ and other IT
-          certifications. I care about clean design, calm productivity, and making tech spaces
-          feel welcoming for women of color and first-gen students.
-        </p>
-
-        <div class="chip-row">
-          <span class="chip">Security+ prep</span>
-          <span class="chip">IT & help desk</span>
-          <span class="chip">HTML · CSS · JavaScript</span>
-          <span class="chip">Productivity & planning</span>
-          <span class="chip">Women in Cybersecurity</span>
-        </div>
-
-        <div class="link-row">
-          <a href="mailto:your-email@example.com">📧 Email me</a>
-          <a href="https://github.com/fantakabia0704-hub" target="_blank">💻 GitHub</a>
-          <a href="https://www.linkedin.com" target="_blank">🔗 LinkedIn (coming soon)</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="emoji">📁</span> Projects</h2>
-        <p class="section-subtitle">
-          A growing collection of projects focused on cybersecurity, study tools, and clean UI.
-        </p>
-        <ul class="project-list">
-          <li>
-            <strong>CyberStudy Planner</strong> —
-            study dashboard with Security+ progress tracking, drag-and-drop tasks, energy tags,
-            focus timer, dark/light nude theme, journal, and calendar view.
-            <br />
-            <a href="https://fantakabia0704-hub.github.io/Cyberstudy-planner/" target="_blank">
-              🔗 Live app
-            </a>
-            ·
-            <a href="https://github.com/fantakabia0704-hub/Cyberstudy-planner" target="_blank">
-              💻 GitHub repo
-            </a>
-          </li>
-          <li>
-            <em>More projects coming soon…</em> (ex: simple Python scripts, IT ticket tracker,
-            or mini security labs you build later).
-          </li>
-        </ul>
-      </div>
-    </section>
-
     <footer>
-      Built by <strong>Fanta Kabia</strong> • CyberStudy Planner • 2025
+      CyberFlash Lab · built by Fanta Kabia
     </footer>
   </div>
 
   <script>
-    // --- ELEMENTS ---
+    // Storage keys
+    const KEY_THEME = 'cyberFlashTheme_v5';
+    const KEY_NOTES = 'cyberFlashNotes_v5';
+    const KEY_CUSTOM = 'cyberFlashCustomCards_v2';
+    const KEY_PROGRESS = 'cyberFlashProgress_v2'; // cardKey -> object { status, sr }
+    const KEY_SESSION = 'cyberFlashSession_v2';
+
+    // THEME
     const themeToggleBtn = document.getElementById('themeToggle');
-    const secPlusRange = document.getElementById('secPlusRange');
-    const secPlusBar = document.getElementById('secPlusBar');
-    const secPlusLabel = document.getElementById('secPlusLabel');
-    const quoteText = document.getElementById('quoteText');
-    const newQuoteBtn = document.getElementById('newQuoteBtn');
-
-    const titleInput = document.getElementById('title');
-    const categoryInput = document.getElementById('category');
-    const energyInput = document.getElementById('energy');
-    const dueDateInput = document.getElementById('dueDate');
-    const notesInput = document.getElementById('notes');
-    const addTaskBtn = document.getElementById('addTaskBtn');
-    const tasksContainer = document.getElementById('tasks');
-    const filterCategory = document.getElementById('filterCategory');
-    const filterStatus = document.getElementById('filterStatus');
-    const filterEnergy = document.getElementById('filterEnergy');
-    const taskStats = document.getElementById('taskStats');
-    const snapshot = document.getElementById('snapshot');
-    const overviewLine = document.getElementById('overviewLine');
-
-    const statTotal = document.getElementById('statTotal');
-    const statCompleted = document.getElementById('statCompleted');
-    const statSecurityPending = document.getElementById('statSecurityPending');
-
-    const journalTextarea = document.getElementById('journal');
-    const saveJournalBtn = document.getElementById('saveJournalBtn');
-    const journalStatus = document.getElementById('journalStatus');
-
-    const todayToggleBtn = document.getElementById('todayToggle');
-    const calendarDateInput = document.getElementById('calendarDate');
-    const calendarSummary = document.getElementById('calendarSummary');
-    const calendarTasks = document.getElementById('calendarTasks');
-
-    const timerDisplay = document.getElementById('timerDisplay');
-    const timerStartBtn = document.getElementById('timerStart');
-    const timerPauseBtn = document.getElementById('timerPause');
-    const timerResetBtn = document.getElementById('timerReset');
-
-    const copySummaryBtn = document.getElementById('copySummaryBtn');
-
-    let tasks = [];
-    let filterTodayOnly = false;
-    let draggedId = null;
-
-    // Timer state
-    let timerSeconds = 25 * 60;
-    let timerInterval = null;
-
-    // --- THEME ---
     function loadTheme() {
-      const saved = localStorage.getItem('cyberStudyTheme');
-      if (saved === 'dark') {
-        document.body.classList.add('dark-theme');
-        themeToggleBtn.textContent = '☀ Light mode';
-      } else {
-        document.body.classList.remove('dark-theme');
-        themeToggleBtn.textContent = '☾ Dark mode';
-      }
+      const saved = localStorage.getItem(KEY_THEME);
+      if (saved === 'light') document.body.classList.add('light-mode');
     }
-
     function toggleTheme() {
-      if (document.body.classList.contains('dark-theme')) {
-        document.body.classList.remove('dark-theme');
-        localStorage.setItem('cyberStudyTheme', 'light');
-        themeToggleBtn.textContent = '☾ Dark mode';
+      const current = localStorage.getItem(KEY_THEME);
+      if (current === 'light') {
+        localStorage.setItem(KEY_THEME, 'dark');
+        document.body.classList.remove('light-mode');
       } else {
-        document.body.classList.add('dark-theme');
-        localStorage.setItem('cyberStudyTheme', 'dark');
-        themeToggleBtn.textContent = '☀ Light mode';
+        localStorage.setItem(KEY_THEME, 'light');
+        document.body.classList.add('light-mode');
       }
     }
-
     themeToggleBtn.addEventListener('click', toggleTheme);
 
-    // --- QUOTES ---
-    const quotes = [
-      "You don’t have to study all day — just today.",
-      "Future you is already proud of this version of you showing up.",
-      "One hour of focused study can change your whole week.",
-      "You belong in tech rooms, security briefings, and board meetings.",
-      "Slow progress is still progress.",
-      "Security+ is just a checklist. YOU are the real upgrade.",
-      "A consistent girl always wins.",
-      "Your study vibe is becoming your lifestyle.",
-      "Every lab you do today builds confidence for your future interviews.",
-      "You’ve done hard things before — this is nothing new.",
-      "Your dream career is waiting on the other side of discipline.",
-      "Small daily improvement beats random bursts of effort.",
-      "You’re on your own timeline — stop rushing greatness.",
-      "Read it once confused, twice curious, three times confident.",
-      "Confusion is part of becoming smarter.",
-      "Every question you get wrong is an opportunity, not a failure.",
-      "You’re building skills that no one can take from you.",
-      "Your future paycheck is proud of you right now.",
-      "You’re allowed to be soft AND successful.",
-      "One focused hour puts you ahead of the old you.",
-      "Being nervous means you care. That’s a good sign.",
-      "You don’t need perfect motivation — just a clean 10 minutes of focus.",
-      "Your mind is leveling up quietly.",
-      "Act like the woman you’re becoming, not the girl you used to be.",
-      "Your effort today is an investment in your rich future.",
-      "Your brain is literally rewiring itself as you study. Magic.",
-      "You belong in tech even if you don’t ‘fit the stereotype.’",
-      "Take breaks. Hydrate. Stretch. Still counts.",
-      "You’re learning a new language: tech. That’s huge.",
-      "Being a beginner is a flex when you’re brave enough to try.",
-      "Show up, even if it’s messy. Especially then.",
-      "Security+ is not smarter than you.",
-      "You are upgrading your future lifestyle every time you study.",
-      "A girl who studies becomes a woman who succeeds.",
-      "You’re becoming the type of woman your younger self needed.",
-      "Keep going — tired, not defeated.",
-      "Every study session is a letter of love to your future self.",
-      "You’re not behind. You’re building.",
-      "You don’t have to believe in yourself fully. 1% is enough to start.",
-      "You’ve survived every ‘I can’t do this’ moment so far.",
-      "A soft life requires hard work first — and you’re doing it.",
-      "You’re rewriting your story every time you choose discipline.",
-      "Take it slow. Slow still gets you there.",
-      "You’re allowed to restart as many times as you need.",
-      "Your consistency is louder than your doubts.",
-      "You’re not supposed to know everything before you study — that’s the point.",
-      "Your questions are valid, intelligent, and important.",
-      "One tiny task today is better than none.",
-      "In three months, you’ll look back and thank yourself.",
-      "When it feels heavy, break it into tiny pieces.",
-      "You deserve a life that feels good. Studying is part of that.",
-      "Confusion means your brain is expanding — keep going.",
-      "You’re capable of more than you think.",
-      "Even on your worst days, you’re still progressing.",
-      "You’re the type of woman who doesn’t quit.",
-      "Right now is the perfect time to start.",
-      "Your dream job is not out of reach — it’s out of comfort.",
-      "An improved life is built in silent moments like this.",
-      "Your talent will grow with your habits.",
-      "Someone less dedicated than you is passing this exam — so will you.",
-      "Every effort compounds. Nothing is wasted.",
-      "Be consistent for the woman you want to become.",
-      "You’re smarter than your doubts and louder than your fears.",
-      "Imagine how proud you’ll be walking into your first tech job.",
-      "Your study grind is changing your tax bracket.",
-      "You’re not doing this for the test — you’re doing it for your future lifestyle.",
-      "You’re allowed to be scared and still move forward.",
-      "Rest is productive when you come back with clarity.",
-      "If it feels overwhelming, pick ONE tiny task.",
-      "Some days discipline is love.",
-      "You don’t need motivation — you need momentum.",
-      "Tiny steps add up louder than big intentions.",
-      "You’re leveling up quietly and dramatically.",
-      "You’re becoming the woman you always said you'd be.",
-      "You’re not starting from zero. You’re starting from experience.",
-      "Your dream job will feel like a reward for nights like this.",
-      "Little by little becomes a lot.",
-      "You can want a soft life and still work hard for it.",
-      "Who you’re becoming is already proud of you.",
-      "There is room for you in tech — and it’s waiting.",
-      "You’re not behind. You’re aligning.",
-      "Imagine how good it will feel when this material finally clicks.",
-      "Your glow-up is not only looks — it’s skills too.",
-      "Your potential is unfolding in real time.",
-      "You are becoming unstoppable through consistency.",
-      "Every study session shifts your entire future.",
-      "Your attention is your superpower — use it gently.",
-      "You don’t have to learn everything today. Just something.",
-      "Your presence in tech matters more than your doubts.",
-      "You’re learning a skill that will change your lifestyle forever.",
-      "One small win today is still a win.",
-      "You’re doing something your future kids will brag about.",
-      "Discomfort now becomes confidence later.",
-      "Be proud of how far you’ve come — even if no one sees it.",
-      "You don’t quit. You regroup.",
-      "A girl in tech is dangerous in the best way.",
-      "Look at you — doing things you once thought you couldn’t.",
-      "Being overwhelmed doesn’t mean you’re unworthy — it means you care.",
-      "This chapter ends in certification and confidence.",
-      "You’re closer than you think. Seriously.",
-      "You’re building a foundation for a wealthy life.",
-      "You’re capable. You’re growing. You’re becoming.",
-      "Your life will look different six months from now — keep going.",
-      "You’re not stuck. You’re learning.",
-      "You’re not tired of studying — you’re tired of doubting yourself.",
-      "Your future self is smiling at you right now.",
-      "You’ve got this — and even when you don’t feel like it, you still do."
+    // Base data
+    const flashcardsBase = [
+      { topic: 'threats', difficulty: 'easy',   q: 'Define social engineering.', a: 'Manipulating people into giving up information or taking actions that weaken security.' },
+      { topic: 'threats', difficulty: 'easy',   q: 'What is phishing?', a: 'Fraudulent messages that appear legitimate, used to steal credentials or money.' },
+      { topic: 'threats', difficulty: 'medium', q: 'Zero-day vulnerability?', a: 'A flaw unknown to the vendor with no patch available yet.' },
+      { topic: 'threats', difficulty: 'medium', q: 'Ransomware?', a: 'Malware that encrypts files and demands payment for a decryption key.' },
+      { topic: 'threats', difficulty: 'hard',   q: 'Man-in-the-middle (MITM) attack?', a: 'An attacker intercepts and may alter communication between two endpoints.' },
+
+      { topic: 'network', difficulty: 'easy',   q: 'Default port for HTTP?', a: 'Port 80.' },
+      { topic: 'network', difficulty: 'easy',   q: 'Service on port 443?', a: 'HTTPS (HTTP over TLS).' },
+      { topic: 'network', difficulty: 'medium', q: 'What is a firewall?', a: 'A device or software that filters traffic based on defined security rules.' },
+      { topic: 'network', difficulty: 'medium', q: 'TCP vs UDP (high level)?', a: 'TCP is reliable and connection-based; UDP is connectionless and faster with no delivery guarantee.' },
+      { topic: 'network', difficulty: 'hard',   q: 'Example of a secure remote admin protocol + port?', a: 'SSH on port 22.' },
+
+      { topic: 'identity', difficulty: 'easy',   q: 'MFA stands for?', a: 'Multi-Factor Authentication.' },
+      { topic: 'identity', difficulty: 'easy',   q: 'List 3 auth factor categories.', a: 'Something you know (password), have (token/phone), are (biometrics).' },
+      { topic: 'identity', difficulty: 'medium', q: 'Principle of least privilege?', a: 'Users receive only the access needed to perform their job.' },
+      { topic: 'identity', difficulty: 'medium', q: 'SSO (Single Sign-On)?', a: 'Authenticate once to access multiple systems without signing in again.' },
+      { topic: 'identity', difficulty: 'hard',   q: 'Role-based access control (RBAC)?', a: 'Permissions are assigned to roles; users inherit access through role membership.' },
+
+      { topic: 'crypto', difficulty: 'easy',   q: 'What is encryption?', a: 'Transforming plaintext into ciphertext to protect confidentiality.' },
+      { topic: 'crypto', difficulty: 'medium', q: 'Symmetric vs asymmetric encryption?', a: 'Symmetric uses one shared key; asymmetric uses a public/private key pair.' },
+      { topic: 'crypto', difficulty: 'medium', q: 'Purpose of hashing?', a: 'Integrity: detect changes by comparing hash values.' },
+      { topic: 'crypto', difficulty: 'hard',   q: 'Name a modern hashing algorithm used in security.', a: 'SHA-256 (older options like MD5 and SHA-1 are not recommended).' },
+
+      { topic: 'ops', difficulty: 'easy',   q: 'CIA triad?', a: 'Confidentiality, Integrity, Availability.' },
+      { topic: 'ops', difficulty: 'medium', q: 'Incident response plan?', a: 'A documented process to detect, respond to, and recover from security incidents.' },
+      { topic: 'ops', difficulty: 'hard',   q: 'Why are logs critical in security operations?', a: 'They support detection, investigation, forensics, and auditing.' }
     ];
 
-    function setRandomQuote() {
-      const index = Math.floor(Math.random() * quotes.length);
-      quoteText.textContent = quotes[index];
+    // UI elements
+    const topicSelect = document.getElementById('topicSelect');
+    const difficultySelect = document.getElementById('difficultySelect');
+    const countInput = document.getElementById('countInput');
+    const goalInput = document.getElementById('goalInput');
+
+    const generateBtn = document.getElementById('generateBtn');
+    const dueBtn = document.getElementById('dueBtn');
+    const continueBtn = document.getElementById('continueBtn');
+    const resetMarksBtn = document.getElementById('resetMarksBtn');
+    const copySummaryBtn = document.getElementById('copySummaryBtn');
+
+    const statTotal = document.getElementById('statTotal');
+    const statKnow = document.getElementById('statKnow');
+    const statReview = document.getElementById('statReview');
+    const statDue = document.getElementById('statDue');
+    const progressFill = document.getElementById('progressFill');
+    const sessionSummary = document.getElementById('sessionSummary');
+
+    const notesArea = document.getElementById('notesArea');
+    const saveNotesBtn = document.getElementById('saveNotesBtn');
+    const notesStatus = document.getElementById('notesStatus');
+
+    const exportBtn = document.getElementById('exportBtn');
+    const importBtn = document.getElementById('importBtn');
+    const importFile = document.getElementById('importFile');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    const customTopic = document.getElementById('customTopic');
+    const customDifficulty = document.getElementById('customDifficulty');
+    const customQ = document.getElementById('customQ');
+    const customA = document.getElementById('customA');
+    const addCustomBtn = document.getElementById('addCustomBtn');
+    const customStatus = document.getElementById('customStatus');
+
+    const flashcardEl = document.getElementById('flashcard');
+    const emptyMsg = document.getElementById('emptyMsg');
+    const topicTag = document.getElementById('topicTag');
+    const difficultyTag = document.getElementById('difficultyTag');
+    const dueTag = document.getElementById('dueTag');
+    const cardIndexLabel = document.getElementById('cardIndexLabel');
+    const cardFront = document.getElementById('cardFront');
+    const cardBack = document.getElementById('cardBack');
+    const cardStatusPill = document.getElementById('cardStatusPill');
+    const srInfo = document.getElementById('srInfo');
+    const hintLabel = document.getElementById('hintLabel');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const flipBtn = document.getElementById('flipBtn');
+    const againBtn = document.getElementById('againBtn');
+    const correctBtn = document.getElementById('correctBtn');
+    const knowBtn = document.getElementById('knowBtn');
+    const reviewBtn = document.getElementById('reviewBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+
+    const searchInput = document.getElementById('searchInput');
+    const quoteBoxContent = document.getElementById('quoteBoxContent');
+    const newQuoteBtn = document.getElementById('newQuoteBtn');
+
+    // State
+    let customCards = [];
+    let deck = [];
+    let currentIndex = 0;
+
+    // progress: cardKey -> { status: 'none'|'know'|'review', sr: { reps, interval, ease, due } }
+    let progressMap = {};
+
+    function safeJSONParse(s, fallback) {
+      try { return JSON.parse(s) ?? fallback; } catch { return fallback; }
     }
 
-    newQuoteBtn.addEventListener('click', setRandomQuote);
-
-    // --- TIMER LOGIC ---
-    function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      const mm = m.toString().padStart(2, '0');
-      const ss = s.toString().padStart(2, '0');
-      return `${mm}:${ss}`;
+    function cardKey(card) {
+      return [card.topic, card.difficulty, card.q.trim().toLowerCase()].join('::');
     }
 
-    function updateTimerDisplay() {
-      timerDisplay.textContent = formatTime(timerSeconds);
-    }
-
-    function startTimer() {
-      if (timerInterval) return; // already running
-      timerInterval = setInterval(() => {
-        if (timerSeconds > 0) {
-          timerSeconds--;
-          updateTimerDisplay();
-        } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alert("Session complete! Nice work 💕");
-        }
-      }, 1000);
-    }
-
-    function pauseTimer() {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
+    function topicLabel(t) {
+      switch (t) {
+        case 'threats': return 'threats_attacks';
+        case 'network': return 'networking_ports';
+        case 'identity': return 'identity_access';
+        case 'crypto': return 'cryptography';
+        case 'ops': return 'sec_operations';
+        default: return 'general';
       }
     }
 
-    function resetTimer() {
-      pauseTimer();
-      timerSeconds = 25 * 60;
-      updateTimerDisplay();
-    }
-
-    timerStartBtn.addEventListener('click', startTimer);
-    timerPauseBtn.addEventListener('click', pauseTimer);
-    timerResetBtn.addEventListener('click', resetTimer);
-    updateTimerDisplay();
-
-    // --- SECURITY+ PROGRESS ---
-    function updateSecPlusProgress(value) {
-      const v = Number(value) || 0;
-      secPlusBar.style.width = v + "%";
-      secPlusLabel.textContent = v + "% complete";
-      localStorage.setItem("cyberStudySecPlus", v.toString());
-    }
-
-    function loadSecPlusProgress() {
-      const saved = localStorage.getItem("cyberStudySecPlus");
-      const value = saved ? Number(saved) : 0;
-      secPlusRange.value = value;
-      updateSecPlusProgress(value);
-    }
-
-    secPlusRange.addEventListener("input", (e) => {
-      updateSecPlusProgress(e.target.value);
-    });
-
-    // --- TASKS ---
-    function loadTasks() {
-      const saved = localStorage.getItem("cyberStudyTasks");
-      tasks = saved ? JSON.parse(saved) : [];
-      renderTasks();
-    }
-
-    function saveTasks() {
-      localStorage.setItem("cyberStudyTasks", JSON.stringify(tasks));
-      updateCalendarView();
-    }
-
-    function addTask() {
-      const title = titleInput.value.trim();
-      const category = categoryInput.value;
-      const energy = energyInput.value || "Medium";
-      const dueDate = dueDateInput.value;
-      const notes = notesInput.value.trim();
-
-      if (!title) {
-        alert("Please enter a task title.");
-        return;
-      }
-
-      const newTask = {
-        id: Date.now(),
-        title,
-        category,
-        energy,
-        dueDate,
-        notes,
-        completed: false
-      };
-      tasks.push(newTask);
-      saveTasks();
-      renderTasks();
-
-      titleInput.value = "";
-      notesInput.value = "";
-    }
-
-    addTaskBtn.addEventListener("click", addTask);
-
-    titleInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        addTask();
-      }
-    });
-
-    function toggleComplete(id) {
-      tasks = tasks.map(task =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      );
-      saveTasks();
-      renderTasks();
-    }
-
-    function deleteTask(id) {
-      if (!confirm("Delete this task?")) return;
-      tasks = tasks.filter(task => task.id !== id);
-      saveTasks();
-      renderTasks();
-    }
-
-    function getBadgeClass(category) {
-      switch (category) {
-        case "Security+": return "badge security";
-        case "A+": return "badge aplus";
-        case "Python": return "badge py";
-        default: return "badge other";
+    function difficultyLabel(d) {
+      switch (d) {
+        case 'easy': return 'easy';
+        case 'medium': return 'medium';
+        case 'hard': return 'hard';
+        default: return 'all_levels';
       }
     }
 
-    // Today-only filter
-    function toggleTodayFilter() {
-      filterTodayOnly = !filterTodayOnly;
-      if (filterTodayOnly) {
-        todayToggleBtn.classList.add('active');
-        todayToggleBtn.textContent = '📅 Today only: On';
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function todayStart() {
+      const d = new Date();
+      d.setHours(0,0,0,0);
+      return d.getTime();
+    }
+
+    function toDateLabel(ts) {
+      if (!ts) return 'n/a';
+      const d = new Date(ts);
+      return d.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' });
+    }
+
+    function ensureProgressEntry(key) {
+      if (!progressMap[key] || typeof progressMap[key] !== 'object') {
+        progressMap[key] = { status: 'none', sr: null };
       } else {
-        todayToggleBtn.classList.remove('active');
-        todayToggleBtn.textContent = '📅 Today only: Off';
+        if (!('status' in progressMap[key])) progressMap[key].status = 'none';
+        if (!('sr' in progressMap[key])) progressMap[key].sr = null;
       }
-      renderTasks();
     }
 
-    todayToggleBtn.addEventListener('click', toggleTodayFilter);
+    function saveProgress() {
+      localStorage.setItem(KEY_PROGRESS, JSON.stringify(progressMap));
+    }
 
-    // Stats + snapshot + overview line
-    function updateTaskStats() {
-      const total = tasks.length;
-      const completed = tasks.filter(t => t.completed).length;
-      const pending = total - completed;
-      const securityPending = tasks.filter(
-        t => t.category === "Security+" && !t.completed
-      ).length;
+    function saveSession(meta) {
+      localStorage.setItem(KEY_SESSION, JSON.stringify(meta));
+    }
 
-      // Top stats numbers
+    function buildAllCards() {
+      return [...flashcardsBase, ...customCards];
+    }
+
+    function countDueToday() {
+      const all = buildAllCards();
+      const byKey = new Map(all.map(c => [cardKey(c), c]));
+      const nowDay = todayStart();
+      let due = 0;
+      for (const k of Object.keys(progressMap)) {
+        const entry = progressMap[k];
+        if (!entry || !entry.sr || !entry.sr.due) continue;
+        if (!byKey.get(k)) continue;
+        if (entry.sr.due <= nowDay) due++;
+      }
+      return due;
+    }
+
+    function renderEmpty() {
+      flashcardEl.style.display = 'none';
+      emptyMsg.style.display = 'block';
+
+      statTotal.textContent = 0;
+      statKnow.textContent = 0;
+      statReview.textContent = 0;
+      statDue.textContent = countDueToday();
+
+      progressFill.style.width = '0%';
+      sessionSummary.innerHTML = '<span>session:</span> no_deck_loaded';
+    }
+
+    function applyProgressToDeck() {
+      deck = deck.map(c => {
+        const key = cardKey(c);
+        ensureProgressEntry(key);
+        const entry = progressMap[key];
+        return { ...c, status: entry.status };
+      });
+    }
+
+    function updateStats() {
+      const total = deck.length;
+      let know = 0;
+      let review = 0;
+
+      deck.forEach(c => {
+        if (c.status === 'know') know++;
+        else if (c.status === 'review') review++;
+      });
+
       statTotal.textContent = total;
-      statCompleted.textContent = completed;
-      statSecurityPending.textContent = securityPending;
+      statKnow.textContent = know;
+      statReview.textContent = review;
+      statDue.textContent = countDueToday();
 
-      taskStats.textContent = `${completed} of ${total} tasks completed`;
+      const goal = Math.max(1, Number(goalInput.value) || total || 1);
+      const marked = know + review;
+      const pct = Math.min(100, Math.round((marked / goal) * 100));
+      progressFill.style.width = pct + '%';
 
       if (total === 0) {
-        snapshot.textContent = "No tasks yet — add one Security+ task to start the momentum ✨";
-        overviewLine.textContent = "Once you add tasks, this section will show a quick summary of your workload.";
-      } else {
-        let msg = `${pending} pending task${pending !== 1 ? "s" : ""}`;
-        if (securityPending > 0) {
-          msg += ` • ${securityPending} Security+ focused`;
-        } else {
-          msg += " • No Security+ tasks pending (maybe add one?)";
-        }
-        snapshot.textContent = msg;
-
-        const todayStr = new Date().toISOString().slice(0, 10);
-        const dueToday = tasks.filter(t => t.dueDate === todayStr && !t.completed).length;
-        overviewLine.textContent =
-          `Today: ${dueToday} due • Overall: ${total} total, ${completed} done, ${securityPending} Security+ left.`;
+        sessionSummary.innerHTML = '<span>session:</span> no_deck_loaded';
+        return;
       }
+
+      sessionSummary.innerHTML =
+        '<span>session:</span> deck_ready // ' +
+        total + '_cards | marked=' + marked +
+        ' | know=' + know + ' | review=' + review +
+        ' | due_today=' + countDueToday();
     }
 
-    // Drag and drop
-    function handleDragStart(e) {
-      draggedId = Number(e.currentTarget.dataset.id);
-      e.currentTarget.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    }
+    function renderCurrentCard() {
+      if (deck.length === 0 || currentIndex < 0 || currentIndex >= deck.length) {
+        renderEmpty();
+        return;
+      }
 
-    function handleDragOver(e) {
-      e.preventDefault();
-    }
+      const card = deck[currentIndex];
+      const key = cardKey(card);
+      ensureProgressEntry(key);
 
-    function handleDrop(e) {
-      e.preventDefault();
-      const targetId = Number(e.currentTarget.dataset.id);
-      if (!draggedId || !targetId || draggedId === targetId) return;
+      const entry = progressMap[key];
+      const sr = entry.sr;
 
-      const fromIndex = tasks.findIndex(t => t.id === draggedId);
-      const toIndex = tasks.findIndex(t => t.id === targetId);
-      if (fromIndex === -1 || toIndex === -1) return;
+      flashcardEl.style.display = 'block';
+      emptyMsg.style.display = 'none';
 
-      const [moved] = tasks.splice(fromIndex, 1);
-      tasks.splice(toIndex, 0, moved);
+      topicTag.textContent = topicLabel(card.topic);
+      difficultyTag.textContent = difficultyLabel(card.difficulty);
+      difficultyTag.className = 'tag';
+      difficultyTag.classList.add(
+        card.difficulty === 'easy' ? 'tag-easy' :
+        card.difficulty === 'medium' ? 'tag-medium' : 'tag-hard'
+      );
 
-      saveTasks();
-      renderTasks();
-    }
+      // due tag
+      const nowDay = todayStart();
+      const isDue = sr && sr.due && sr.due <= nowDay;
+      dueTag.style.display = isDue ? 'inline-flex' : 'none';
+      if (isDue) {
+        dueTag.textContent = 'due: ' + toDateLabel(sr.due);
+      }
 
-    function handleDragEnd(e) {
-      e.currentTarget.classList.remove('dragging');
-      draggedId = null;
-    }
+      cardFront.textContent = '> ' + card.q;
+      cardBack.textContent = '// ' + card.a;
+      cardIndexLabel.textContent = 'card ' + (currentIndex + 1) + '/' + deck.length;
 
-    // Render tasks
-    function renderTasks() {
-      tasksContainer.innerHTML = "";
-      const catFilter = filterCategory.value;
-      const statusFilter = filterStatus.value;
-      const energyFilter = filterEnergy.value;
-      const todayStr = new Date().toISOString().slice(0, 10);
+      flashcardEl.classList.remove('card-know', 'card-review');
+      cardStatusPill.className = 'card-status-pill';
 
-      const filtered = tasks.filter(task => {
-        const matchCat = catFilter === "All" || task.category === catFilter;
-        const matchStatus =
-          statusFilter === "All" ||
-          (statusFilter === "Pending" && !task.completed) ||
-          (statusFilter === "Completed" && task.completed);
-        const taskEnergy = task.energy || "Medium";
-        const matchEnergy =
-          energyFilter === "All" || taskEnergy === energyFilter;
-        const matchToday =
-          !filterTodayOnly || (task.dueDate && task.dueDate === todayStr);
-        return matchCat && matchStatus && matchEnergy && matchToday;
+      if (entry.status === 'none') {
+        cardStatusPill.classList.add('card-status-none');
+        cardStatusPill.textContent = 'status: not_answered';
+      } else if (entry.status === 'know') {
+        cardStatusPill.classList.add('card-status-know');
+        cardStatusPill.textContent = 'status: know_this';
+        flashcardEl.classList.add('card-know');
+      } else if (entry.status === 'review') {
+        cardStatusPill.classList.add('card-status-review');
+        cardStatusPill.textContent = 'status: review_later';
+        flashcardEl.classList.add('card-review');
+      }
+
+      if (!sr) {
+        srInfo.textContent = 'sr: not_scheduled';
+      } else {
+        srInfo.textContent =
+          'sr: reps=' + sr.reps +
+          ' | int=' + sr.interval + 'd' +
+          ' | ease=' + sr.ease.toFixed(2) +
+          ' | due=' + toDateLabel(sr.due);
+      }
+
+      hintLabel.textContent = 'hint: click card or press [space] to flip';
+
+      if (!flashcardEl.classList.contains('flipped')) {
+        cardFront.style.display = 'block';
+        cardBack.style.display = 'none';
+      } else {
+        cardFront.style.display = 'none';
+        cardBack.style.display = 'block';
+      }
+
+      // Save session
+      const deckKeys = deck.map(c => cardKey(c));
+      saveSession({
+        topic: topicSelect.value,
+        difficulty: difficultySelect.value,
+        count: Number(countInput.value) || 10,
+        goal: Number(goalInput.value) || 10,
+        deckKeys,
+        currentIndex
       });
+    }
 
-      updateTaskStats();
-      updateCalendarView();
+    function generateDeck() {
+      const topic = topicSelect.value;
+      const difficulty = difficultySelect.value;
+      const count = Math.max(3, Math.min(25, Number(countInput.value) || 10));
+
+      let filtered = buildAllCards().filter(card => {
+        const topicMatch = topic === 'all' || card.topic === topic;
+        const diffMatch = difficulty === 'all' || card.difficulty === difficulty;
+        return topicMatch && diffMatch;
+      });
 
       if (filtered.length === 0) {
-        tasksContainer.innerHTML = '<p class="meta-text">No tasks match this view. Try a different filter or add a new task 😊</p>';
+        alert("No cards match these filters.");
         return;
       }
 
-      filtered.forEach(task => {
-        const taskDiv = document.createElement("div");
-        taskDiv.className = "task" + (task.completed ? " completed" : "");
-        taskDiv.draggable = true;
-        taskDiv.dataset.id = task.id;
+      filtered = shuffle(filtered).slice(0, count);
+      deck = filtered.map(card => ({ ...card, status: 'none' }));
+      applyProgressToDeck();
+      currentIndex = 0;
 
-        const infoDiv = document.createElement("div");
-        infoDiv.className = "task-info";
-
-        const titleEl = document.createElement("strong");
-        titleEl.textContent = task.title;
-
-        const metaEl = document.createElement("div");
-        const badge = document.createElement("span");
-        badge.className = getBadgeClass(task.category);
-        badge.textContent = task.category;
-
-        const dateText = task.dueDate ? `Due: ${task.dueDate}` : "No due date";
-        const dateSpan = document.createElement("span");
-        dateSpan.className = "meta-text";
-        dateSpan.textContent = " • " + dateText;
-
-        const energySpan = document.createElement("span");
-        energySpan.className = "meta-text";
-        energySpan.textContent = ` • Energy: ${task.energy || "Medium"}`;
-
-        metaEl.appendChild(badge);
-        metaEl.appendChild(dateSpan);
-        metaEl.appendChild(energySpan);
-
-        const notesEl = document.createElement("div");
-        notesEl.className = "meta-text";
-        notesEl.textContent = task.notes || "";
-
-        infoDiv.appendChild(titleEl);
-        infoDiv.appendChild(metaEl);
-        if (task.notes) infoDiv.appendChild(notesEl);
-
-        const actionsDiv = document.createElement("div");
-        const toggleBtn = document.createElement("button");
-        toggleBtn.textContent = task.completed ? "Unmark" : "Complete";
-        toggleBtn.className = "btn-small complete-btn";
-        toggleBtn.onclick = () => toggleComplete(task.id);
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Delete";
-        deleteBtn.className = "btn-small delete-btn";
-        deleteBtn.onclick = () => deleteTask(task.id);
-
-        actionsDiv.appendChild(toggleBtn);
-        actionsDiv.appendChild(deleteBtn);
-
-        taskDiv.appendChild(infoDiv);
-        taskDiv.appendChild(actionsDiv);
-
-        // drag events
-        taskDiv.addEventListener('dragstart', handleDragStart);
-        taskDiv.addEventListener('dragover', handleDragOver);
-        taskDiv.addEventListener('drop', handleDrop);
-        taskDiv.addEventListener('dragend', handleDragEnd);
-
-        tasksContainer.appendChild(taskDiv);
-      });
+      flashcardEl.classList.remove('flipped', 'card-know', 'card-review');
+      renderCurrentCard();
+      updateStats();
     }
 
-    filterCategory.addEventListener("change", renderTasks);
-    filterStatus.addEventListener("change", renderTasks);
-    filterEnergy.addEventListener("change", renderTasks);
+    function studyDue() {
+      const all = buildAllCards();
+      const nowDay = todayStart();
+      const dueCards = [];
 
-    // Journal
-    function loadJournal() {
-      const saved = localStorage.getItem("cyberStudyJournal");
-      if (saved) {
-        journalTextarea.value = saved;
-        journalStatus.textContent = "Last saved journal loaded.";
+      for (const c of all) {
+        const k = cardKey(c);
+        ensureProgressEntry(k);
+        const sr = progressMap[k].sr;
+        if (sr && sr.due && sr.due <= nowDay) {
+          dueCards.push(c);
+        }
       }
-    }
 
-    function saveJournal() {
-      localStorage.setItem("cyberStudyJournal", journalTextarea.value);
-      const now = new Date();
-      journalStatus.textContent =
-        "Saved at " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-
-    saveJournalBtn.addEventListener("click", saveJournal);
-
-    // Calendar / planner
-    function updateCalendarView() {
-      const dateStr = calendarDateInput.value;
-      if (!dateStr) {
-        calendarSummary.textContent = "No date selected yet.";
-        calendarTasks.innerHTML = "";
+      if (dueCards.length === 0) {
+        alert("Nothing is due today yet. Keep going — new cards will become due after you grade them.");
         return;
       }
 
-      const tasksForDate = tasks.filter(t => t.dueDate === dateStr);
-      if (tasksForDate.length === 0) {
-        calendarSummary.textContent = `No tasks due on ${dateStr}.`;
-        calendarTasks.innerHTML = "";
+      const count = Math.max(3, Math.min(25, Number(countInput.value) || 10));
+      deck = shuffle(dueCards).slice(0, count).map(c => ({ ...c, status: progressMap[cardKey(c)].status }));
+      currentIndex = 0;
+
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function continueSession() {
+      const saved = safeJSONParse(localStorage.getItem(KEY_SESSION), null);
+      if (!saved || !Array.isArray(saved.deckKeys) || saved.deckKeys.length === 0) {
+        alert("No saved session found yet. Generate a deck first.");
         return;
       }
 
-      calendarSummary.textContent = `${tasksForDate.length} task(s) due on ${dateStr}:`;
-      calendarTasks.innerHTML = "";
-      tasksForDate.forEach(t => {
-        const div = document.createElement('div');
-        div.className = 'calendar-task-item';
-        div.textContent = `• [${t.category}] ${t.title}`;
-        calendarTasks.appendChild(div);
-      });
+      topicSelect.value = saved.topic || 'all';
+      difficultySelect.value = saved.difficulty || 'all';
+      countInput.value = saved.count || 10;
+      goalInput.value = saved.goal || 10;
+
+      const all = buildAllCards();
+      const byKey = new Map(all.map(c => [cardKey(c), c]));
+      const rebuilt = saved.deckKeys.map(k => byKey.get(k)).filter(Boolean);
+
+      if (rebuilt.length === 0) {
+        alert("Saved deck couldn't be rebuilt. Generate a new deck.");
+        return;
+      }
+
+      deck = rebuilt.map(c => ({ ...c, status: 'none' }));
+      applyProgressToDeck();
+      currentIndex = Math.min(Math.max(0, saved.currentIndex || 0), deck.length - 1);
+
+      flashcardEl.classList.remove('flipped', 'card-know', 'card-review');
+      renderCurrentCard();
+      updateStats();
     }
 
-    calendarDateInput.addEventListener('change', updateCalendarView);
+    function flipCard() {
+      if (deck.length === 0) return;
+      flashcardEl.classList.toggle('flipped');
+      renderCurrentCard();
+    }
 
-    // Copy today summary
-    function copyTodaySummary() {
-      const todayStr = new Date().toISOString().slice(0, 10);
-      const todayTasks = tasks.filter(t => t.dueDate === todayStr);
-      const total = tasks.length;
-      const completed = tasks.filter(t => t.completed).length;
-      const pending = total - completed;
+    function nextCard() {
+      if (deck.length === 0) return;
+      currentIndex = (currentIndex + 1) % deck.length;
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+    }
 
-      let text = `CyberStudy Planner — Today (${todayStr})\n\n`;
-      text += `Total tasks: ${total}\nCompleted: ${completed}\nPending: ${pending}\n\n`;
+    function prevCard() {
+      if (deck.length === 0) return;
+      currentIndex = (currentIndex - 1 + deck.length) % deck.length;
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+    }
 
-      if (todayTasks.length === 0) {
-        text += "No tasks due today.\n";
+    // --- Spaced repetition scheduling (SM-2 style) ---
+    // quality scale simplified:
+    // - "again" => quality = 2
+    // - "correct" => quality = 4
+    function initSR() {
+      return {
+        reps: 0,
+        interval: 0,   // days
+        ease: 2.5,
+        due: todayStart() // due now
+      };
+    }
+
+    function addDays(tsStartOfDay, days) {
+      return tsStartOfDay + (days * 24 * 60 * 60 * 1000);
+    }
+
+    function gradeSR(card, quality) {
+      const k = cardKey(card);
+      ensureProgressEntry(k);
+
+      let sr = progressMap[k].sr;
+      if (!sr) sr = initSR();
+
+      // SM-2 inspired update
+      // Ease factor update
+      // EF' = EF + (0.1 - (5-q)*(0.08 + (5-q)*0.02))
+      // Clamp min 1.3
+      const q = Math.max(0, Math.min(5, quality));
+      const delta = 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02);
+      sr.ease = Math.max(1.3, sr.ease + delta);
+
+      const nowDay = todayStart();
+
+      if (q < 3) {
+        // failed -> reset repetitions, short interval
+        sr.reps = 0;
+        sr.interval = 1;
+        sr.due = addDays(nowDay, 1);
       } else {
-        text += "Tasks due today:\n";
-        todayTasks.forEach(t => {
-          text += `- [${t.category}] (${t.energy || "Medium"} energy) ${t.title}`;
-          if (t.notes) text += ` — ${t.notes}`;
-          text += "\n";
-        });
+        // success -> increase reps/interval
+        sr.reps = sr.reps + 1;
+        if (sr.reps === 1) sr.interval = 1;
+        else if (sr.reps === 2) sr.interval = 6;
+        else sr.interval = Math.round(sr.interval * sr.ease);
+
+        // floor at 1 day
+        sr.interval = Math.max(1, sr.interval);
+        sr.due = addDays(nowDay, sr.interval);
       }
+
+      progressMap[k].sr = sr;
+      saveProgress();
+    }
+
+    function markCorrect() {
+      if (deck.length === 0) return;
+      // schedule forward
+      gradeSR(deck[currentIndex], 4);
+      // optional: also mark as know (but not forced)
+      renderCurrentCard();
+      updateStats();
+      nextCard();
+    }
+
+    function markAgain() {
+      if (deck.length === 0) return;
+      // bring back sooner
+      gradeSR(deck[currentIndex], 2);
+      renderCurrentCard();
+      updateStats();
+      nextCard();
+    }
+
+    // Tagging status (your original behavior)
+    function setStatus(status) {
+      if (deck.length === 0) return;
+      const k = cardKey(deck[currentIndex]);
+      ensureProgressEntry(k);
+      progressMap[k].status = status;
+      saveProgress();
+      applyProgressToDeck();
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function resetMarks() {
+      if (deck.length === 0) return;
+      // reset status + sr for current deck only
+      for (const c of deck) {
+        const k = cardKey(c);
+        ensureProgressEntry(k);
+        progressMap[k].status = 'none';
+        progressMap[k].sr = null;
+      }
+      saveProgress();
+      applyProgressToDeck();
+      flashcardEl.classList.remove('card-know', 'card-review');
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function shuffleDeck() {
+      if (deck.length === 0) return;
+      deck = shuffle(deck);
+      currentIndex = 0;
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function copySessionSummary() {
+      if (deck.length === 0) {
+        alert("No deck loaded yet.");
+        return;
+      }
+
+      let know = 0, review = 0;
+      deck.forEach(c => {
+        const k = cardKey(c);
+        ensureProgressEntry(k);
+        if (progressMap[k].status === 'know') know++;
+        else if (progressMap[k].status === 'review') review++;
+      });
+
+      const total = deck.length;
+      const goal = Math.max(1, Number(goalInput.value) || total || 1);
+      const done = know + review;
+      const pctDone = Math.min(100, Math.round((done / goal) * 100));
+
+      let text = "CyberFlash Lab — Session Summary\n\n";
+      text += `Deck size: ${total}\n`;
+      text += `Know this: ${know}\n`;
+      text += `Review later: ${review}\n`;
+      text += `Progress: ${done}/${goal} (${pctDone}%)\n`;
+      text += `Due today (global): ${countDueToday()}\n`;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text)
           .then(() => {
-            const oldText = copySummaryBtn.textContent;
-            copySummaryBtn.textContent = "✅ Copied!";
-            setTimeout(() => {
-              copySummaryBtn.textContent = oldText;
-            }, 1500);
+            const old = copySummaryBtn.textContent;
+            copySummaryBtn.textContent = "copied";
+            setTimeout(() => { copySummaryBtn.textContent = old; }, 1200);
           })
-          .catch(() => {
-            alert("Could not copy automatically. Here’s your summary:\n\n" + text);
-          });
+          .catch(() => alert("Copy failed. Summary:\n\n" + text));
       } else {
-        alert("Copy this summary:\n\n" + text);
+        alert("Summary:\n\n" + text);
       }
     }
 
-    copySummaryBtn.addEventListener('click', copyTodaySummary);
+    function jumpToSearch() {
+      if (deck.length === 0) return;
+      const term = (searchInput.value || "").trim().toLowerCase();
+      if (!term) return;
 
-    // INIT
+      const startIndex = currentIndex;
+      let foundIndex = -1;
+
+      for (let i = 0; i < deck.length; i++) {
+        const idx = (startIndex + i) % deck.length;
+        const card = deck[idx];
+        const hay = (card.q + " " + card.a).toLowerCase();
+        if (hay.includes(term)) { foundIndex = idx; break; }
+      }
+
+      if (foundIndex === -1) {
+        alert("No card contains that keyword in this deck.");
+        return;
+      }
+
+      currentIndex = foundIndex;
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+    }
+
+    // NOTES
+    function loadNotes() {
+      const saved = localStorage.getItem(KEY_NOTES);
+      if (saved) {
+        notesArea.value = saved;
+        notesStatus.textContent = 'notes loaded from last session.';
+      }
+    }
+
+    function saveNotes() {
+      localStorage.setItem(KEY_NOTES, notesArea.value);
+      const now = new Date();
+      notesStatus.textContent =
+        'notes saved @ ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // CUSTOM CARDS
+    function loadCustomCards() {
+      customCards = safeJSONParse(localStorage.getItem(KEY_CUSTOM), []);
+      if (!Array.isArray(customCards)) customCards = [];
+      updateCustomStatus();
+    }
+
+    function updateCustomStatus() {
+      customStatus.textContent = 'custom cards: ' + (customCards.length || 0);
+    }
+
+    function addCustomCard() {
+      const t = customTopic.value;
+      const d = customDifficulty.value;
+      const q = (customQ.value || '').trim();
+      const a = (customA.value || '').trim();
+
+      if (!q || !a) {
+        alert("Add both a question and an answer.");
+        return;
+      }
+
+      const card = { topic: t, difficulty: d, q, a, custom: true };
+      const key = cardKey(card);
+
+      const all = buildAllCards();
+      if (all.some(c => cardKey(c) === key)) {
+        alert("That card already exists.");
+        return;
+      }
+
+      customCards.push(card);
+      localStorage.setItem(KEY_CUSTOM, JSON.stringify(customCards));
+      updateCustomStatus();
+
+      customQ.value = '';
+      customA.value = '';
+      updateStats();
+    }
+
+    // EXPORT / IMPORT
+    function exportData() {
+      const payload = {
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        notes: localStorage.getItem(KEY_NOTES) || "",
+        theme: localStorage.getItem(KEY_THEME) || "dark",
+        customCards,
+        progressMap,
+        session: safeJSONParse(localStorage.getItem(KEY_SESSION), null)
+      };
+
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "cyberflash-data.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      URL.revokeObjectURL(url);
+    }
+
+    function importDataFromFile(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = safeJSONParse(reader.result, null);
+        if (!data || typeof data !== 'object') {
+          alert("Invalid import file.");
+          return;
+        }
+
+        if (typeof data.notes === 'string') localStorage.setItem(KEY_NOTES, data.notes);
+        if (typeof data.theme === 'string') localStorage.setItem(KEY_THEME, data.theme);
+
+        if (Array.isArray(data.customCards)) {
+          customCards = data.customCards.filter(c =>
+            c && typeof c.q === 'string' && typeof c.a === 'string' && c.topic && c.difficulty
+          );
+          localStorage.setItem(KEY_CUSTOM, JSON.stringify(customCards));
+        }
+
+        if (data.progressMap && typeof data.progressMap === 'object') {
+          progressMap = data.progressMap;
+          localStorage.setItem(KEY_PROGRESS, JSON.stringify(progressMap));
+        }
+
+        if (data.session && typeof data.session === 'object') {
+          localStorage.setItem(KEY_SESSION, JSON.stringify(data.session));
+        }
+
+        loadTheme();
+        notesArea.value = localStorage.getItem(KEY_NOTES) || "";
+        notesStatus.textContent = "notes imported.";
+        updateCustomStatus();
+        updateStats();
+        renderCurrentCard();
+
+        alert("Import complete.");
+      };
+      reader.readAsText(file);
+    }
+
+    function clearAllData() {
+      const ok = confirm("Clear all saved data (notes, progress, scheduling, custom cards, session)?");
+      if (!ok) return;
+
+      localStorage.removeItem(KEY_NOTES);
+      localStorage.removeItem(KEY_CUSTOM);
+      localStorage.removeItem(KEY_PROGRESS);
+      localStorage.removeItem(KEY_SESSION);
+
+      customCards = [];
+      progressMap = {};
+      deck = [];
+      currentIndex = 0;
+
+      notesArea.value = '';
+      notesStatus.textContent = 'notes not saved.';
+      updateCustomStatus();
+      renderEmpty();
+      alert("Data cleared.");
+    }
+
+    // Quotes
+    const motivationQuotes = [
+      "Keep it consistent. Small sessions add up.",
+      "Accuracy first. Speed comes later.",
+      "Review what you miss until it becomes automatic.",
+      "One more card now means less stress later.",
+      "You are building real skill, not just passing a test."
+    ];
+    function setRandomQuote() {
+      const i = Math.floor(Math.random() * motivationQuotes.length);
+      quoteBoxContent.textContent = motivationQuotes[i];
+    }
+
+    // INIT LOAD
+    function loadProgress() {
+      progressMap = safeJSONParse(localStorage.getItem(KEY_PROGRESS), {});
+      if (!progressMap || typeof progressMap !== 'object') progressMap = {};
+    }
+
+    // EVENTS
+    generateBtn.addEventListener('click', generateDeck);
+    dueBtn.addEventListener('click', studyDue);
+    continueBtn.addEventListener('click', continueSession);
+    resetMarksBtn.addEventListener('click', resetMarks);
+    copySummaryBtn.addEventListener('click', copySessionSummary);
+
+    flashcardEl.addEventListener('click', flipCard);
+    flipBtn.addEventListener('click', flipCard);
+    nextBtn.addEventListener('click', nextCard);
+    prevBtn.addEventListener('click', prevCard);
+
+    againBtn.addEventListener('click', markAgain);
+    correctBtn.addEventListener('click', markCorrect);
+
+    knowBtn.addEventListener('click', () => setStatus('know'));
+    reviewBtn.addEventListener('click', () => setStatus('review'));
+    shuffleBtn.addEventListener('click', shuffleDeck);
+
+    saveNotesBtn.addEventListener('click', saveNotes);
+    exportBtn.addEventListener('click', exportData);
+    importBtn.addEventListener('click', () => importFile.click());
+    importFile.addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) importDataFromFile(f);
+      importFile.value = '';
+    });
+    clearAllBtn.addEventListener('click', clearAllData);
+
+    addCustomBtn.addEventListener('click', addCustomCard);
+
+    newQuoteBtn.addEventListener('click', setRandomQuote);
+
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') jumpToSearch();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+
+      if (e.key === ' ') {
+        e.preventDefault();
+        flipCard();
+      } else if (e.key === 'ArrowRight') {
+        nextCard();
+      } else if (e.key === 'ArrowLeft') {
+        prevCard();
+      } else if (e.key === '1') {
+        setStatus('know');
+      } else if (e.key === '2') {
+        setStatus('review');
+      } else if (e.key === 'a' || e.key === 'A') {
+        markAgain();
+      } else if (e.key === 'c' || e.key === 'C') {
+        markCorrect();
+      }
+    });
+
+    // RUN INIT
     loadTheme();
-    loadSecPlusProgress();
-    loadTasks();
-    loadJournal();
+    loadNotes();
+    loadCustomCards();
+    loadProgress();
     setRandomQuote();
+    renderEmpty();
+    updateStats();
   </script>
 </body>
 </html>
