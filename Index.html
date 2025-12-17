@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CyberFlash Lab · Security+ Cards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-main: radial-gradient(circle at top, #050816 0, #02010b 35%, #000000 100%);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+
+      --danger: #fb7185;
+      --success: #4ade80;
+      --warn: #f59e0b;
+
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.9);
+
+      --input-bg: #020617;
+      --header-bg: linear-gradient(to right, rgba(15,23,42,0.92), rgba(17,24,39,0.98));
+      --chip-bg: rgba(15,23,42,0.85);
+      --btn-nav-bg: rgba(15,23,42,0.98);
+      --panel-bg: radial-gradient(circle at top left, rgba(15,118,255,0.18), rgba(15,23,42,0.97));
+      --panel-bg-right: radial-gradient(circle at top, rgba(56,189,248,0.06), rgba(15,23,42,0.97));
+    }
+
+    body.light-mode {
+      --bg-main: radial-gradient(circle at top, #f8fafc 0, #eef2ff 35%, #ffffff 100%);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+
+      --border-subtle: rgba(15, 23, 42, 0.18);
+      --shadow-soft: 0 16px 34px rgba(2, 6, 23, 0.12);
+
+      --input-bg: #f1f5f9;
+      --header-bg: linear-gradient(to right, rgba(255,255,255,0.92), rgba(241,245,249,0.98));
+      --chip-bg: rgba(241,245,249,0.9);
+      --btn-nav-bg: rgba(241,245,249,0.95);
+      --panel-bg: radial-gradient(circle at top left, rgba(56,189,248,0.10), rgba(255,255,255,0.97));
+      --panel-bg-right: radial-gradient(circle at top, rgba(99,102,241,0.08), rgba(255,255,255,0.97));
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .shell {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 18px 16px 26px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--header-bg);
+      border: 1px solid rgba(148,163,184,0.45);
+      box-shadow: var(--shadow-soft);
+    }
+
+    body.light-mode header {
+      border: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: radial-gradient(circle at top, #38bdf8 0, #0f172a 45%, #020617 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fira Code", monospace;
+      font-size: 0.85rem;
+      color: #e5f9ff;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+    }
+
+    .brand-text h1 {
+      font-size: 1.4rem;
+      margin: 0;
+    }
+
+    .brand-text p {
+      margin: 2px 0 0;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .chip-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      color: var(--text-muted);
+      background: var(--chip-bg);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    body.light-mode .chip { border: 1px solid rgba(15, 23, 42, 0.14); }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34,197,94,0.9);
+    }
+
+    .mode-label {
+      font-family: "Fira Code", monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.4fr);
+      gap: 16px;
+      margin-top: 16px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      header { align-items: flex-start; flex-direction: column; }
+      .header-right { align-items: flex-start; }
+    }
+
+    .panel {
+      background: var(--panel-bg);
+      border-radius: 16px;
+      padding: 14px 14px 16px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .panel--right { background: var(--panel-bg-right); }
+
+    h2 {
+      margin: 0;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-tag {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-family: "Fira Code", monospace;
+    }
+
+    .section-subtitle {
+      margin: 4px 0 10px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.8rem;
+    }
+
+    select, input[type="number"], input[type="text"] {
+      width: 100%;
+      margin-top: 5px;
+      border-radius: 9px;
+      padding: 7px 9px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-family: "Fira Code", monospace;
+      font-size: 0.8rem;
+    }
+
+    body.light-mode select,
+    body.light-mode input[type="number"],
+    body.light-mode input[type="text"],
+    body.light-mode textarea {
+      border: 1px solid rgba(15, 23, 42, 0.14);
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 6px;
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-family: "Fira Code", monospace;
+      font-size: 0.8rem;
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      outline: 1px solid var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.4);
+    }
+
+    button {
+      border-radius: 999px;
+      padding: 7px 14px;
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: "Space Grotesk", system-ui;
+      background: linear-gradient(to right, #38bdf8, #6366f1);
+      color: #0b1120;
+      margin-top: 10px;
+    }
+
+    button:hover { filter: brightness(1.05); }
+
+    .btn-small {
+      padding: 6px 10px;
+      font-size: 0.72rem;
+      margin-top: 0;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid rgba(56,189,248,0.4);
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid rgba(251,113,133,0.55);
+    }
+
+    .stack-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .stat-block {
+      flex: 1;
+      min-width: 120px;
+      border-radius: 11px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.5);
+      padding: 8px 10px;
+    }
+
+    body.light-mode .stat-block {
+      background: rgba(248,250,252,0.95);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      margin-top: 3px;
+      font-size: 0.9rem;
+      font-family: "Fira Code", monospace;
+    }
+
+    .stat-value--ok { color: var(--success); }
+    .stat-value--warn { color: var(--danger); }
+    .stat-value--due { color: var(--warn); }
+
+    .progress-bar {
+      margin-top: 8px;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+
+    body.light-mode .progress-bar {
+      background: rgba(241,245,249,0.95);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #38bdf8, #a855f7);
+      transition: width 0.18s ease-out;
+    }
+
+    .terminal-title {
+      font-family: "Fira Code", monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 4px 0 8px;
+    }
+
+    .terminal-title span { color: var(--accent); }
+
+    .notes-status {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-family: "Fira Code", monospace;
+    }
+
+    /* Flashcards */
+    .card-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .flashcard-large {
+      width: 100%;
+      max-width: 520px;
+      min-height: 220px;
+      border-radius: 18px;
+      padding: 20px 20px 16px;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.08), #020617);
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: 0 18px 32px rgba(15,23,42,0.9);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      overflow: hidden;
+    }
+
+    body.light-mode .flashcard-large {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.12), #ffffff);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      box-shadow: 0 16px 30px rgba(2, 6, 23, 0.12);
+    }
+
+    .flashcard-large:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 40px rgba(15,23,42,1);
+      border-color: rgba(56,189,248,0.9);
+    }
+
+    body.light-mode .flashcard-large:hover {
+      box-shadow: 0 18px 34px rgba(2, 6, 23, 0.16);
+    }
+
+    .flashcard-large.card-know {
+      border-color: rgba(74,222,128,0.95);
+      box-shadow: 0 0 24px rgba(74,222,128,0.6);
+    }
+
+    .flashcard-large.card-review {
+      border-color: rgba(248,113,113,0.95);
+      box-shadow: 0 0 24px rgba(248,113,113,0.6);
+    }
+
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: "Fira Code", monospace;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(148,163,184,0.5);
+    }
+
+    body.light-mode .tag { border: 1px solid rgba(15, 23, 42, 0.14); }
+
+    .tag-topic {
+      border-color: rgba(56,189,248,0.7);
+      color: var(--accent);
+    }
+
+    .tag-easy { border-color: rgba(74,222,128,0.8); color: var(--success); }
+    .tag-medium { border-color: rgba(234,179,8,0.8); color: #eab308; }
+    .tag-hard { border-color: rgba(248,113,113,0.85); color: var(--danger); }
+
+    .tag-due {
+      border-color: rgba(245,158,11,0.8);
+      color: var(--warn);
+    }
+
+    .card-body {
+      margin-top: 4px;
+      min-height: 130px;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-text-front,
+    .card-text-back {
+      font-size: 0.95rem;
+      font-family: "Fira Code", monospace;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .card-text-back {
+      display: none;
+      color: #e0f2fe;
+    }
+
+    body.light-mode .card-text-back {
+      color: var(--text-main);
+      opacity: 0.92;
+    }
+
+    .flashcard-large.flipped .card-text-front { display: none; }
+    .flashcard-large.flipped .card-text-back { display: block; }
+
+    .card-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: "Fira Code", monospace;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .card-status-pill {
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid rgba(148,163,184,0.5);
+      font-size: 0.7rem;
+    }
+
+    .card-status-none { color: var(--text-muted); }
+    .card-status-know { color: var(--success); border-color: rgba(74,222,128,0.8); }
+    .card-status-review { color: var(--danger); border-color: rgba(248,113,113,0.8); }
+
+    .card-actions-main {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .btn-know {
+      background: linear-gradient(to right, #4ade80, #22c55e);
+      color: #052e16;
+    }
+
+    .btn-review {
+      background: linear-gradient(to right, #fb7185, #f97316);
+      color: #450a0a;
+    }
+
+    .btn-correct {
+      background: linear-gradient(to right, #4ade80, #38bdf8);
+      color: #052e16;
+    }
+
+    .btn-again {
+      background: linear-gradient(to right, #fb7185, #f59e0b);
+      color: #450a0a;
+    }
+
+    .btn-nav {
+      background: var(--btn-nav-bg);
+      color: var(--accent);
+      border: 1px solid rgba(56,189,248,0.45);
+    }
+
+    body.light-mode .btn-nav { border: 1px solid rgba(15, 23, 42, 0.14); }
+
+    .hint-keys {
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-family: "Fira Code", monospace;
+      text-align: center;
+    }
+
+    .quote-box {
+      border-radius: 11px;
+      padding: 9px 10px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.55);
+      font-size: 0.78rem;
+      color: #e5e7eb;
+      font-family: "Fira Code", monospace;
+      line-height: 1.5;
+      margin-top: 10px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    body.light-mode .quote-box {
+      background: rgba(248,250,252,0.95);
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      color: var(--text-main);
+    }
+
+    .quote-label {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-family: "Fira Code", monospace;
+      margin-bottom: 4px;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(148,163,184,0.22);
+      margin: 12px 0;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-family: "Fira Code", monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand-block">
+        <div class="brand-logo"><span>CF</span></div>
+        <div class="brand-text">
+          <h1>CyberFlash Lab</h1>
+          <p>Security+ flashcards in a coding-style workspace.</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="chip-row">
+          <div class="chip">
+            <span class="chip-dot"></span>
+            <span>session: secplus_study</span>
+          </div>
+          <div class="chip">
+            <span class="mode-label">mode:</span> spaced_review
+          </div>
+        </div>
+        <button id="themeToggle" class="btn-small btn-ghost" type="button">Toggle theme</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT PANEL -->
+      <div class="panel">
+        <h2>
+          Deck Controls
+          <span class="title-tag">// configure</span>
+        </h2>
+        <p class="section-subtitle">
+          Generate a deck, or study only what is due today.
+        </p>
+
+        <label>
+          Topic
+          <select id="topicSelect">
+            <option value="all">all_topics</option>
+            <option value="threats">threats_attacks</option>
+            <option value="network">networking_ports</option>
+            <option value="identity">identity_access</option>
+            <option value="crypto">cryptography</option>
+            <option value="ops">sec_operations</option>
+          </select>
+        </label>
+
+        <label>
+          Difficulty
+          <select id="difficultySelect">
+            <option value="all">all_levels</option>
+            <option value="easy">easy_mode</option>
+            <option value="medium">standard</option>
+            <option value="hard">hardcore</option>
+          </select>
+        </label>
+
+        <label>
+          Cards per deck
+          <input id="countInput" type="number" min="3" max="25" value="10" />
+        </label>
+
+        <label>
+          Session goal (cards to mark)
+          <input id="goalInput" type="number" min="3" max="50" value="10" />
+        </label>
+
+        <button id="generateBtn" type="button">generate_deck()</button>
+
+        <div class="stack-row">
+          <button id="dueBtn" class="btn-small btn-ghost" type="button">study_due()</button>
+          <button id="continueBtn" class="btn-small btn-ghost" type="button">continue_session()</button>
+          <button id="resetMarksBtn" class="btn-small btn-ghost" type="button">reset_marks()</button>
+          <button id="copySummaryBtn" class="btn-small btn-ghost" type="button">copy_session_summary()</button>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-block">
+            <div class="stat-label">cards_in_deck</div>
+            <div class="stat-value" id="statTotal">0</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-label">know_this</div>
+            <div class="stat-value stat-value--ok" id="statKnow">0</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-label">review_later</div>
+            <div class="stat-value stat-value--warn" id="statReview">0</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-label">due_today</div>
+            <div class="stat-value stat-value--due" id="statDue">0</div>
+          </div>
+        </div>
+
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+
+        <p id="sessionSummary" class="terminal-title">
+          <span>session:</span> no_deck_loaded
+        </p>
+
+        <div class="divider"></div>
+
+        <h2 style="font-size:0.9rem;margin-bottom:3px;">
+          Session Notes
+          <span class="title-tag">// saved locally</span>
+        </h2>
+        <p class="section-subtitle">
+          Capture ports, acronyms, patterns, and reminders.
+        </p>
+        <textarea id="notesArea" placeholder="443 = https, 80 = http, 3389 = rdp, 22 = ssh, 53 = dns"></textarea>
+        <div class="stack-row">
+          <button id="saveNotesBtn" class="btn-small" type="button">save_notes()</button>
+          <button id="exportBtn" class="btn-small btn-ghost" type="button">export_data()</button>
+          <button id="importBtn" class="btn-small btn-ghost" type="button">import_data()</button>
+          <button id="clearAllBtn" class="btn-small btn-danger" type="button">clear_all_data()</button>
+          <input id="importFile" type="file" accept="application/json" style="display:none;" />
+        </div>
+        <p id="notesStatus" class="notes-status">notes not saved.</p>
+
+        <div class="divider"></div>
+
+        <h2 style="font-size:0.9rem;margin-bottom:3px;">
+          Custom Cards
+          <span class="title-tag">// add your own</span>
+        </h2>
+        <p class="section-subtitle">
+          Add questions you miss often. Saved and included in due-review.
+        </p>
+
+        <label>
+          Custom topic
+          <select id="customTopic">
+            <option value="threats">threats_attacks</option>
+            <option value="network">networking_ports</option>
+            <option value="identity">identity_access</option>
+            <option value="crypto">cryptography</option>
+            <option value="ops">sec_operations</option>
+          </select>
+        </label>
+
+        <label>
+          Custom difficulty
+          <select id="customDifficulty">
+            <option value="easy">easy_mode</option>
+            <option value="medium">standard</option>
+            <option value="hard">hardcore</option>
+          </select>
+        </label>
+
+        <label>
+          Question
+          <input id="customQ" type="text" placeholder="e.g. What port is DNS?" />
+        </label>
+
+        <label>
+          Answer
+          <input id="customA" type="text" placeholder="e.g. 53 (TCP/UDP)" />
+        </label>
+
+        <button id="addCustomBtn" class="btn-small" type="button">add_custom_card()</button>
+        <p id="customStatus" class="notes-status" style="margin-top:8px;">custom cards: 0</p>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="panel panel--right">
+        <h2>
+          Flashcard Deck
+          <span class="title-tag">// click_to_flip</span>
+        </h2>
+        <p class="section-subtitle">
+          Flip, then grade: correct schedules forward, again brings it back sooner.
+        </p>
+
+        <label style="margin-top:4px; font-size:0.78rem;">
+          Filter / jump by keyword (press Enter)
+          <input id="searchInput" type="text" placeholder="e.g. firewall, ransomware, CIA triad" />
+        </label>
+
+        <div class="card-stage">
+          <div id="flashcard" class="flashcard-large" style="display:none;">
+            <div class="card-header-row">
+              <div class="card-tags">
+                <span id="topicTag" class="tag tag-topic">topic</span>
+                <span id="difficultyTag" class="tag">level</span>
+                <span id="dueTag" class="tag tag-due" style="display:none;">due</span>
+              </div>
+              <div id="cardIndexLabel">card 0/0</div>
+            </div>
+
+            <div class="card-body">
+              <div id="cardFront" class="card-text-front">generate a deck to start.</div>
+              <div id="cardBack" class="card-text-back">// answer will appear here.</div>
+            </div>
+
+            <div class="card-footer-row">
+              <span id="cardStatusPill" class="card-status-pill card-status-none">
+                status: not_answered
+              </span>
+              <span id="srInfo" class="card-status-pill">sr: not_scheduled</span>
+              <span id="hintLabel">hint: click card or press [space] to flip</span>
+            </div>
+          </div>
+
+          <p id="emptyMsg" class="terminal-title" style="text-align:center;margin-top:16px;">
+            <span>deck:</span> none_loaded
+          </p>
+
+          <div class="card-actions-main">
+            <button id="prevBtn" class="btn-small btn-nav" type="button">prev_card()</button>
+            <button id="flipBtn" class="btn-small btn-nav" type="button">flip_card()</button>
+            <button id="nextBtn" class="btn-small btn-nav" type="button">next_card()</button>
+
+            <button id="againBtn" class="btn-small btn-again" type="button">mark_again()</button>
+            <button id="correctBtn" class="btn-small btn-correct" type="button">mark_correct()</button>
+
+            <button id="knowBtn" class="btn-small btn-know" type="button">mark_know()</button>
+            <button id="reviewBtn" class="btn-small btn-review" type="button">mark_review()</button>
+
+            <button id="shuffleBtn" class="btn-small btn-nav" type="button">shuffle_deck()</button>
+          </div>
+
+          <div class="hint-keys">
+            keys: ← prev · → next · space flip · A again · C correct · 1 know · 2 review
+          </div>
+
+          <div class="quote-box">
+            <div class="quote-label">focus_reminder</div>
+            <div id="quoteBoxContent">loading...</div>
+            <button id="newQuoteBtn" class="btn-small btn-ghost" style="margin-top:8px;" type="button">
+              new_reminder()
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      CyberFlash Lab · built by Fanta Kabia
+    </footer>
+  </div>
+
+  <script>
+    // Storage keys
+    const KEY_THEME = 'cyberFlashTheme_v5';
+    const KEY_NOTES = 'cyberFlashNotes_v5';
+    const KEY_CUSTOM = 'cyberFlashCustomCards_v2';
+    const KEY_PROGRESS = 'cyberFlashProgress_v2'; // cardKey -> object { status, sr }
+    const KEY_SESSION = 'cyberFlashSession_v2';
+
+    // THEME
+    const themeToggleBtn = document.getElementById('themeToggle');
+    function loadTheme() {
+      const saved = localStorage.getItem(KEY_THEME);
+      if (saved === 'light') document.body.classList.add('light-mode');
+    }
+    function toggleTheme() {
+      const current = localStorage.getItem(KEY_THEME);
+      if (current === 'light') {
+        localStorage.setItem(KEY_THEME, 'dark');
+        document.body.classList.remove('light-mode');
+      } else {
+        localStorage.setItem(KEY_THEME, 'light');
+        document.body.classList.add('light-mode');
+      }
+    }
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    // Base data
+    const flashcardsBase = [
+      { topic: 'threats', difficulty: 'easy',   q: 'Define social engineering.', a: 'Manipulating people into giving up information or taking actions that weaken security.' },
+      { topic: 'threats', difficulty: 'easy',   q: 'What is phishing?', a: 'Fraudulent messages that appear legitimate, used to steal credentials or money.' },
+      { topic: 'threats', difficulty: 'medium', q: 'Zero-day vulnerability?', a: 'A flaw unknown to the vendor with no patch available yet.' },
+      { topic: 'threats', difficulty: 'medium', q: 'Ransomware?', a: 'Malware that encrypts files and demands payment for a decryption key.' },
+      { topic: 'threats', difficulty: 'hard',   q: 'Man-in-the-middle (MITM) attack?', a: 'An attacker intercepts and may alter communication between two endpoints.' },
+
+      { topic: 'network', difficulty: 'easy',   q: 'Default port for HTTP?', a: 'Port 80.' },
+      { topic: 'network', difficulty: 'easy',   q: 'Service on port 443?', a: 'HTTPS (HTTP over TLS).' },
+      { topic: 'network', difficulty: 'medium', q: 'What is a firewall?', a: 'A device or software that filters traffic based on defined security rules.' },
+      { topic: 'network', difficulty: 'medium', q: 'TCP vs UDP (high level)?', a: 'TCP is reliable and connection-based; UDP is connectionless and faster with no delivery guarantee.' },
+      { topic: 'network', difficulty: 'hard',   q: 'Example of a secure remote admin protocol + port?', a: 'SSH on port 22.' },
+
+      { topic: 'identity', difficulty: 'easy',   q: 'MFA stands for?', a: 'Multi-Factor Authentication.' },
+      { topic: 'identity', difficulty: 'easy',   q: 'List 3 auth factor categories.', a: 'Something you know (password), have (token/phone), are (biometrics).' },
+      { topic: 'identity', difficulty: 'medium', q: 'Principle of least privilege?', a: 'Users receive only the access needed to perform their job.' },
+      { topic: 'identity', difficulty: 'medium', q: 'SSO (Single Sign-On)?', a: 'Authenticate once to access multiple systems without signing in again.' },
+      { topic: 'identity', difficulty: 'hard',   q: 'Role-based access control (RBAC)?', a: 'Permissions are assigned to roles; users inherit access through role membership.' },
+
+      { topic: 'crypto', difficulty: 'easy',   q: 'What is encryption?', a: 'Transforming plaintext into ciphertext to protect confidentiality.' },
+      { topic: 'crypto', difficulty: 'medium', q: 'Symmetric vs asymmetric encryption?', a: 'Symmetric uses one shared key; asymmetric uses a public/private key pair.' },
+      { topic: 'crypto', difficulty: 'medium', q: 'Purpose of hashing?', a: 'Integrity: detect changes by comparing hash values.' },
+      { topic: 'crypto', difficulty: 'hard',   q: 'Name a modern hashing algorithm used in security.', a: 'SHA-256 (older options like MD5 and SHA-1 are not recommended).' },
+
+      { topic: 'ops', difficulty: 'easy',   q: 'CIA triad?', a: 'Confidentiality, Integrity, Availability.' },
+      { topic: 'ops', difficulty: 'medium', q: 'Incident response plan?', a: 'A documented process to detect, respond to, and recover from security incidents.' },
+      { topic: 'ops', difficulty: 'hard',   q: 'Why are logs critical in security operations?', a: 'They support detection, investigation, forensics, and auditing.' }
+    ];
+
+    // UI elements
+    const topicSelect = document.getElementById('topicSelect');
+    const difficultySelect = document.getElementById('difficultySelect');
+    const countInput = document.getElementById('countInput');
+    const goalInput = document.getElementById('goalInput');
+
+    const generateBtn = document.getElementById('generateBtn');
+    const dueBtn = document.getElementById('dueBtn');
+    const continueBtn = document.getElementById('continueBtn');
+    const resetMarksBtn = document.getElementById('resetMarksBtn');
+    const copySummaryBtn = document.getElementById('copySummaryBtn');
+
+    const statTotal = document.getElementById('statTotal');
+    const statKnow = document.getElementById('statKnow');
+    const statReview = document.getElementById('statReview');
+    const statDue = document.getElementById('statDue');
+    const progressFill = document.getElementById('progressFill');
+    const sessionSummary = document.getElementById('sessionSummary');
+
+    const notesArea = document.getElementById('notesArea');
+    const saveNotesBtn = document.getElementById('saveNotesBtn');
+    const notesStatus = document.getElementById('notesStatus');
+
+    const exportBtn = document.getElementById('exportBtn');
+    const importBtn = document.getElementById('importBtn');
+    const importFile = document.getElementById('importFile');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    const customTopic = document.getElementById('customTopic');
+    const customDifficulty = document.getElementById('customDifficulty');
+    const customQ = document.getElementById('customQ');
+    const customA = document.getElementById('customA');
+    const addCustomBtn = document.getElementById('addCustomBtn');
+    const customStatus = document.getElementById('customStatus');
+
+    const flashcardEl = document.getElementById('flashcard');
+    const emptyMsg = document.getElementById('emptyMsg');
+    const topicTag = document.getElementById('topicTag');
+    const difficultyTag = document.getElementById('difficultyTag');
+    const dueTag = document.getElementById('dueTag');
+    const cardIndexLabel = document.getElementById('cardIndexLabel');
+    const cardFront = document.getElementById('cardFront');
+    const cardBack = document.getElementById('cardBack');
+    const cardStatusPill = document.getElementById('cardStatusPill');
+    const srInfo = document.getElementById('srInfo');
+    const hintLabel = document.getElementById('hintLabel');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const flipBtn = document.getElementById('flipBtn');
+    const againBtn = document.getElementById('againBtn');
+    const correctBtn = document.getElementById('correctBtn');
+    const knowBtn = document.getElementById('knowBtn');
+    const reviewBtn = document.getElementById('reviewBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+
+    const searchInput = document.getElementById('searchInput');
+    const quoteBoxContent = document.getElementById('quoteBoxContent');
+    const newQuoteBtn = document.getElementById('newQuoteBtn');
+
+    // State
+    let customCards = [];
+    let deck = [];
+    let currentIndex = 0;
+
+    // progress: cardKey -> { status: 'none'|'know'|'review', sr: { reps, interval, ease, due } }
+    let progressMap = {};
+
+    function safeJSONParse(s, fallback) {
+      try { return JSON.parse(s) ?? fallback; } catch { return fallback; }
+    }
+
+    function cardKey(card) {
+      return [card.topic, card.difficulty, card.q.trim().toLowerCase()].join('::');
+    }
+
+    function topicLabel(t) {
+      switch (t) {
+        case 'threats': return 'threats_attacks';
+        case 'network': return 'networking_ports';
+        case 'identity': return 'identity_access';
+        case 'crypto': return 'cryptography';
+        case 'ops': return 'sec_operations';
+        default: return 'general';
+      }
+    }
+
+    function difficultyLabel(d) {
+      switch (d) {
+        case 'easy': return 'easy';
+        case 'medium': return 'medium';
+        case 'hard': return 'hard';
+        default: return 'all_levels';
+      }
+    }
+
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function todayStart() {
+      const d = new Date();
+      d.setHours(0,0,0,0);
+      return d.getTime();
+    }
+
+    function toDateLabel(ts) {
+      if (!ts) return 'n/a';
+      const d = new Date(ts);
+      return d.toLocaleDateString([], { year: 'numeric', month: 'short', day: '2-digit' });
+    }
+
+    function ensureProgressEntry(key) {
+      if (!progressMap[key] || typeof progressMap[key] !== 'object') {
+        progressMap[key] = { status: 'none', sr: null };
+      } else {
+        if (!('status' in progressMap[key])) progressMap[key].status = 'none';
+        if (!('sr' in progressMap[key])) progressMap[key].sr = null;
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem(KEY_PROGRESS, JSON.stringify(progressMap));
+    }
+
+    function saveSession(meta) {
+      localStorage.setItem(KEY_SESSION, JSON.stringify(meta));
+    }
+
+    function buildAllCards() {
+      return [...flashcardsBase, ...customCards];
+    }
+
+    function countDueToday() {
+      const all = buildAllCards();
+      const byKey = new Map(all.map(c => [cardKey(c), c]));
+      const nowDay = todayStart();
+      let due = 0;
+      for (const k of Object.keys(progressMap)) {
+        const entry = progressMap[k];
+        if (!entry || !entry.sr || !entry.sr.due) continue;
+        if (!byKey.get(k)) continue;
+        if (entry.sr.due <= nowDay) due++;
+      }
+      return due;
+    }
+
+    function renderEmpty() {
+      flashcardEl.style.display = 'none';
+      emptyMsg.style.display = 'block';
+
+      statTotal.textContent = 0;
+      statKnow.textContent = 0;
+      statReview.textContent = 0;
+      statDue.textContent = countDueToday();
+
+      progressFill.style.width = '0%';
+      sessionSummary.innerHTML = '<span>session:</span> no_deck_loaded';
+    }
+
+    function applyProgressToDeck() {
+      deck = deck.map(c => {
+        const key = cardKey(c);
+        ensureProgressEntry(key);
+        const entry = progressMap[key];
+        return { ...c, status: entry.status };
+      });
+    }
+
+    function updateStats() {
+      const total = deck.length;
+      let know = 0;
+      let review = 0;
+
+      deck.forEach(c => {
+        if (c.status === 'know') know++;
+        else if (c.status === 'review') review++;
+      });
+
+      statTotal.textContent = total;
+      statKnow.textContent = know;
+      statReview.textContent = review;
+      statDue.textContent = countDueToday();
+
+      const goal = Math.max(1, Number(goalInput.value) || total || 1);
+      const marked = know + review;
+      const pct = Math.min(100, Math.round((marked / goal) * 100));
+      progressFill.style.width = pct + '%';
+
+      if (total === 0) {
+        sessionSummary.innerHTML = '<span>session:</span> no_deck_loaded';
+        return;
+      }
+
+      sessionSummary.innerHTML =
+        '<span>session:</span> deck_ready // ' +
+        total + '_cards | marked=' + marked +
+        ' | know=' + know + ' | review=' + review +
+        ' | due_today=' + countDueToday();
+    }
+
+    function renderCurrentCard() {
+      if (deck.length === 0 || currentIndex < 0 || currentIndex >= deck.length) {
+        renderEmpty();
+        return;
+      }
+
+      const card = deck[currentIndex];
+      const key = cardKey(card);
+      ensureProgressEntry(key);
+
+      const entry = progressMap[key];
+      const sr = entry.sr;
+
+      flashcardEl.style.display = 'block';
+      emptyMsg.style.display = 'none';
+
+      topicTag.textContent = topicLabel(card.topic);
+      difficultyTag.textContent = difficultyLabel(card.difficulty);
+      difficultyTag.className = 'tag';
+      difficultyTag.classList.add(
+        card.difficulty === 'easy' ? 'tag-easy' :
+        card.difficulty === 'medium' ? 'tag-medium' : 'tag-hard'
+      );
+
+      // due tag
+      const nowDay = todayStart();
+      const isDue = sr && sr.due && sr.due <= nowDay;
+      dueTag.style.display = isDue ? 'inline-flex' : 'none';
+      if (isDue) {
+        dueTag.textContent = 'due: ' + toDateLabel(sr.due);
+      }
+
+      cardFront.textContent = '> ' + card.q;
+      cardBack.textContent = '// ' + card.a;
+      cardIndexLabel.textContent = 'card ' + (currentIndex + 1) + '/' + deck.length;
+
+      flashcardEl.classList.remove('card-know', 'card-review');
+      cardStatusPill.className = 'card-status-pill';
+
+      if (entry.status === 'none') {
+        cardStatusPill.classList.add('card-status-none');
+        cardStatusPill.textContent = 'status: not_answered';
+      } else if (entry.status === 'know') {
+        cardStatusPill.classList.add('card-status-know');
+        cardStatusPill.textContent = 'status: know_this';
+        flashcardEl.classList.add('card-know');
+      } else if (entry.status === 'review') {
+        cardStatusPill.classList.add('card-status-review');
+        cardStatusPill.textContent = 'status: review_later';
+        flashcardEl.classList.add('card-review');
+      }
+
+      if (!sr) {
+        srInfo.textContent = 'sr: not_scheduled';
+      } else {
+        srInfo.textContent =
+          'sr: reps=' + sr.reps +
+          ' | int=' + sr.interval + 'd' +
+          ' | ease=' + sr.ease.toFixed(2) +
+          ' | due=' + toDateLabel(sr.due);
+      }
+
+      hintLabel.textContent = 'hint: click card or press [space] to flip';
+
+      if (!flashcardEl.classList.contains('flipped')) {
+        cardFront.style.display = 'block';
+        cardBack.style.display = 'none';
+      } else {
+        cardFront.style.display = 'none';
+        cardBack.style.display = 'block';
+      }
+
+      // Save session
+      const deckKeys = deck.map(c => cardKey(c));
+      saveSession({
+        topic: topicSelect.value,
+        difficulty: difficultySelect.value,
+        count: Number(countInput.value) || 10,
+        goal: Number(goalInput.value) || 10,
+        deckKeys,
+        currentIndex
+      });
+    }
+
+    function generateDeck() {
+      const topic = topicSelect.value;
+      const difficulty = difficultySelect.value;
+      const count = Math.max(3, Math.min(25, Number(countInput.value) || 10));
+
+      let filtered = buildAllCards().filter(card => {
+        const topicMatch = topic === 'all' || card.topic === topic;
+        const diffMatch = difficulty === 'all' || card.difficulty === difficulty;
+        return topicMatch && diffMatch;
+      });
+
+      if (filtered.length === 0) {
+        alert("No cards match these filters.");
+        return;
+      }
+
+      filtered = shuffle(filtered).slice(0, count);
+      deck = filtered.map(card => ({ ...card, status: 'none' }));
+      applyProgressToDeck();
+      currentIndex = 0;
+
+      flashcardEl.classList.remove('flipped', 'card-know', 'card-review');
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function studyDue() {
+      const all = buildAllCards();
+      const nowDay = todayStart();
+      const dueCards = [];
+
+      for (const c of all) {
+        const k = cardKey(c);
+        ensureProgressEntry(k);
+        const sr = progressMap[k].sr;
+        if (sr && sr.due && sr.due <= nowDay) {
+          dueCards.push(c);
+        }
+      }
+
+      if (dueCards.length === 0) {
+        alert("Nothing is due today yet. Keep going — new cards will become due after you grade them.");
+        return;
+      }
+
+      const count = Math.max(3, Math.min(25, Number(countInput.value) || 10));
+      deck = shuffle(dueCards).slice(0, count).map(c => ({ ...c, status: progressMap[cardKey(c)].status }));
+      currentIndex = 0;
+
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function continueSession() {
+      const saved = safeJSONParse(localStorage.getItem(KEY_SESSION), null);
+      if (!saved || !Array.isArray(saved.deckKeys) || saved.deckKeys.length === 0) {
+        alert("No saved session found yet. Generate a deck first.");
+        return;
+      }
+
+      topicSelect.value = saved.topic || 'all';
+      difficultySelect.value = saved.difficulty || 'all';
+      countInput.value = saved.count || 10;
+      goalInput.value = saved.goal || 10;
+
+      const all = buildAllCards();
+      const byKey = new Map(all.map(c => [cardKey(c), c]));
+      const rebuilt = saved.deckKeys.map(k => byKey.get(k)).filter(Boolean);
+
+      if (rebuilt.length === 0) {
+        alert("Saved deck couldn't be rebuilt. Generate a new deck.");
+        return;
+      }
+
+      deck = rebuilt.map(c => ({ ...c, status: 'none' }));
+      applyProgressToDeck();
+      currentIndex = Math.min(Math.max(0, saved.currentIndex || 0), deck.length - 1);
+
+      flashcardEl.classList.remove('flipped', 'card-know', 'card-review');
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function flipCard() {
+      if (deck.length === 0) return;
+      flashcardEl.classList.toggle('flipped');
+      renderCurrentCard();
+    }
+
+    function nextCard() {
+      if (deck.length === 0) return;
+      currentIndex = (currentIndex + 1) % deck.length;
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+    }
+
+    function prevCard() {
+      if (deck.length === 0) return;
+      currentIndex = (currentIndex - 1 + deck.length) % deck.length;
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+    }
+
+    // --- Spaced repetition scheduling (SM-2 style) ---
+    // quality scale simplified:
+    // - "again" => quality = 2
+    // - "correct" => quality = 4
+    function initSR() {
+      return {
+        reps: 0,
+        interval: 0,   // days
+        ease: 2.5,
+        due: todayStart() // due now
+      };
+    }
+
+    function addDays(tsStartOfDay, days) {
+      return tsStartOfDay + (days * 24 * 60 * 60 * 1000);
+    }
+
+    function gradeSR(card, quality) {
+      const k = cardKey(card);
+      ensureProgressEntry(k);
+
+      let sr = progressMap[k].sr;
+      if (!sr) sr = initSR();
+
+      // SM-2 inspired update
+      // Ease factor update
+      // EF' = EF + (0.1 - (5-q)*(0.08 + (5-q)*0.02))
+      // Clamp min 1.3
+      const q = Math.max(0, Math.min(5, quality));
+      const delta = 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02);
+      sr.ease = Math.max(1.3, sr.ease + delta);
+
+      const nowDay = todayStart();
+
+      if (q < 3) {
+        // failed -> reset repetitions, short interval
+        sr.reps = 0;
+        sr.interval = 1;
+        sr.due = addDays(nowDay, 1);
+      } else {
+        // success -> increase reps/interval
+        sr.reps = sr.reps + 1;
+        if (sr.reps === 1) sr.interval = 1;
+        else if (sr.reps === 2) sr.interval = 6;
+        else sr.interval = Math.round(sr.interval * sr.ease);
+
+        // floor at 1 day
+        sr.interval = Math.max(1, sr.interval);
+        sr.due = addDays(nowDay, sr.interval);
+      }
+
+      progressMap[k].sr = sr;
+      saveProgress();
+    }
+
+    function markCorrect() {
+      if (deck.length === 0) return;
+      // schedule forward
+      gradeSR(deck[currentIndex], 4);
+      // optional: also mark as know (but not forced)
+      renderCurrentCard();
+      updateStats();
+      nextCard();
+    }
+
+    function markAgain() {
+      if (deck.length === 0) return;
+      // bring back sooner
+      gradeSR(deck[currentIndex], 2);
+      renderCurrentCard();
+      updateStats();
+      nextCard();
+    }
+
+    // Tagging status (your original behavior)
+    function setStatus(status) {
+      if (deck.length === 0) return;
+      const k = cardKey(deck[currentIndex]);
+      ensureProgressEntry(k);
+      progressMap[k].status = status;
+      saveProgress();
+      applyProgressToDeck();
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function resetMarks() {
+      if (deck.length === 0) return;
+      // reset status + sr for current deck only
+      for (const c of deck) {
+        const k = cardKey(c);
+        ensureProgressEntry(k);
+        progressMap[k].status = 'none';
+        progressMap[k].sr = null;
+      }
+      saveProgress();
+      applyProgressToDeck();
+      flashcardEl.classList.remove('card-know', 'card-review');
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function shuffleDeck() {
+      if (deck.length === 0) return;
+      deck = shuffle(deck);
+      currentIndex = 0;
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+      updateStats();
+    }
+
+    function copySessionSummary() {
+      if (deck.length === 0) {
+        alert("No deck loaded yet.");
+        return;
+      }
+
+      let know = 0, review = 0;
+      deck.forEach(c => {
+        const k = cardKey(c);
+        ensureProgressEntry(k);
+        if (progressMap[k].status === 'know') know++;
+        else if (progressMap[k].status === 'review') review++;
+      });
+
+      const total = deck.length;
+      const goal = Math.max(1, Number(goalInput.value) || total || 1);
+      const done = know + review;
+      const pctDone = Math.min(100, Math.round((done / goal) * 100));
+
+      let text = "CyberFlash Lab — Session Summary\n\n";
+      text += `Deck size: ${total}\n`;
+      text += `Know this: ${know}\n`;
+      text += `Review later: ${review}\n`;
+      text += `Progress: ${done}/${goal} (${pctDone}%)\n`;
+      text += `Due today (global): ${countDueToday()}\n`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            const old = copySummaryBtn.textContent;
+            copySummaryBtn.textContent = "copied";
+            setTimeout(() => { copySummaryBtn.textContent = old; }, 1200);
+          })
+          .catch(() => alert("Copy failed. Summary:\n\n" + text));
+      } else {
+        alert("Summary:\n\n" + text);
+      }
+    }
+
+    function jumpToSearch() {
+      if (deck.length === 0) return;
+      const term = (searchInput.value || "").trim().toLowerCase();
+      if (!term) return;
+
+      const startIndex = currentIndex;
+      let foundIndex = -1;
+
+      for (let i = 0; i < deck.length; i++) {
+        const idx = (startIndex + i) % deck.length;
+        const card = deck[idx];
+        const hay = (card.q + " " + card.a).toLowerCase();
+        if (hay.includes(term)) { foundIndex = idx; break; }
+      }
+
+      if (foundIndex === -1) {
+        alert("No card contains that keyword in this deck.");
+        return;
+      }
+
+      currentIndex = foundIndex;
+      flashcardEl.classList.remove('flipped');
+      renderCurrentCard();
+    }
+
+    // NOTES
+    function loadNotes() {
+      const saved = localStorage.getItem(KEY_NOTES);
+      if (saved) {
+        notesArea.value = saved;
+        notesStatus.textContent = 'notes loaded from last session.';
+      }
+    }
+
+    function saveNotes() {
+      localStorage.setItem(KEY_NOTES, notesArea.value);
+      const now = new Date();
+      notesStatus.textContent =
+        'notes saved @ ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // CUSTOM CARDS
+    function loadCustomCards() {
+      customCards = safeJSONParse(localStorage.getItem(KEY_CUSTOM), []);
+      if (!Array.isArray(customCards)) customCards = [];
+      updateCustomStatus();
+    }
+
+    function updateCustomStatus() {
+      customStatus.textContent = 'custom cards: ' + (customCards.length || 0);
+    }
+
+    function addCustomCard() {
+      const t = customTopic.value;
+      const d = customDifficulty.value;
+      const q = (customQ.value || '').trim();
+      const a = (customA.value || '').trim();
+
+      if (!q || !a) {
+        alert("Add both a question and an answer.");
+        return;
+      }
+
+      const card = { topic: t, difficulty: d, q, a, custom: true };
+      const key = cardKey(card);
+
+      const all = buildAllCards();
+      if (all.some(c => cardKey(c) === key)) {
+        alert("That card already exists.");
+        return;
+      }
+
+      customCards.push(card);
+      localStorage.setItem(KEY_CUSTOM, JSON.stringify(customCards));
+      updateCustomStatus();
+
+      customQ.value = '';
+      customA.value = '';
+      updateStats();
+    }
+
+    // EXPORT / IMPORT
+    function exportData() {
+      const payload = {
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        notes: localStorage.getItem(KEY_NOTES) || "",
+        theme: localStorage.getItem(KEY_THEME) || "dark",
+        customCards,
+        progressMap,
+        session: safeJSONParse(localStorage.getItem(KEY_SESSION), null)
+      };
+
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "cyberflash-data.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      URL.revokeObjectURL(url);
+    }
+
+    function importDataFromFile(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = safeJSONParse(reader.result, null);
+        if (!data || typeof data !== 'object') {
+          alert("Invalid import file.");
+          return;
+        }
+
+        if (typeof data.notes === 'string') localStorage.setItem(KEY_NOTES, data.notes);
+        if (typeof data.theme === 'string') localStorage.setItem(KEY_THEME, data.theme);
+
+        if (Array.isArray(data.customCards)) {
+          customCards = data.customCards.filter(c =>
+            c && typeof c.q === 'string' && typeof c.a === 'string' && c.topic && c.difficulty
+          );
+          localStorage.setItem(KEY_CUSTOM, JSON.stringify(customCards));
+        }
+
+        if (data.progressMap && typeof data.progressMap === 'object') {
+          progressMap = data.progressMap;
+          localStorage.setItem(KEY_PROGRESS, JSON.stringify(progressMap));
+        }
+
+        if (data.session && typeof data.session === 'object') {
+          localStorage.setItem(KEY_SESSION, JSON.stringify(data.session));
+        }
+
+        loadTheme();
+        notesArea.value = localStorage.getItem(KEY_NOTES) || "";
+        notesStatus.textContent = "notes imported.";
+        updateCustomStatus();
+        updateStats();
+        renderCurrentCard();
+
+        alert("Import complete.");
+      };
+      reader.readAsText(file);
+    }
+
+    function clearAllData() {
+      const ok = confirm("Clear all saved data (notes, progress, scheduling, custom cards, session)?");
+      if (!ok) return;
+
+      localStorage.removeItem(KEY_NOTES);
+      localStorage.removeItem(KEY_CUSTOM);
+      localStorage.removeItem(KEY_PROGRESS);
+      localStorage.removeItem(KEY_SESSION);
+
+      customCards = [];
+      progressMap = {};
+      deck = [];
+      currentIndex = 0;
+
+      notesArea.value = '';
+      notesStatus.textContent = 'notes not saved.';
+      updateCustomStatus();
+      renderEmpty();
+      alert("Data cleared.");
+    }
+
+    // Quotes
+    const motivationQuotes = [
+      "Keep it consistent. Small sessions add up.",
+      "Accuracy first. Speed comes later.",
+      "Review what you miss until it becomes automatic.",
+      "One more card now means less stress later.",
+      "You are building real skill, not just passing a test."
+    ];
+    function setRandomQuote() {
+      const i = Math.floor(Math.random() * motivationQuotes.length);
+      quoteBoxContent.textContent = motivationQuotes[i];
+    }
+
+    // INIT LOAD
+    function loadProgress() {
+      progressMap = safeJSONParse(localStorage.getItem(KEY_PROGRESS), {});
+      if (!progressMap || typeof progressMap !== 'object') progressMap = {};
+    }
+
+    // EVENTS
+    generateBtn.addEventListener('click', generateDeck);
+    dueBtn.addEventListener('click', studyDue);
+    continueBtn.addEventListener('click', continueSession);
+    resetMarksBtn.addEventListener('click', resetMarks);
+    copySummaryBtn.addEventListener('click', copySessionSummary);
+
+    flashcardEl.addEventListener('click', flipCard);
+    flipBtn.addEventListener('click', flipCard);
+    nextBtn.addEventListener('click', nextCard);
+    prevBtn.addEventListener('click', prevCard);
+
+    againBtn.addEventListener('click', markAgain);
+    correctBtn.addEventListener('click', markCorrect);
+
+    knowBtn.addEventListener('click', () => setStatus('know'));
+    reviewBtn.addEventListener('click', () => setStatus('review'));
+    shuffleBtn.addEventListener('click', shuffleDeck);
+
+    saveNotesBtn.addEventListener('click', saveNotes);
+    exportBtn.addEventListener('click', exportData);
+    importBtn.addEventListener('click', () => importFile.click());
+    importFile.addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) importDataFromFile(f);
+      importFile.value = '';
+    });
+    clearAllBtn.addEventListener('click', clearAllData);
+
+    addCustomBtn.addEventListener('click', addCustomCard);
+
+    newQuoteBtn.addEventListener('click', setRandomQuote);
+
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') jumpToSearch();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+
+      if (e.key === ' ') {
+        e.preventDefault();
+        flipCard();
+      } else if (e.key === 'ArrowRight') {
+        nextCard();
+      } else if (e.key === 'ArrowLeft') {
+        prevCard();
+      } else if (e.key === '1') {
+        setStatus('know');
+      } else if (e.key === '2') {
+        setStatus('review');
+      } else if (e.key === 'a' || e.key === 'A') {
+        markAgain();
+      } else if (e.key === 'c' || e.key === 'C') {
+        markCorrect();
+      }
+    });
+
+    // RUN INIT
+    loadTheme();
+    loadNotes();
+    loadCustomCards();
+    loadProgress();
+    setRandomQuote();
+    renderEmpty();
+    updateStats();
+  </script>
+</body>
+</html>
